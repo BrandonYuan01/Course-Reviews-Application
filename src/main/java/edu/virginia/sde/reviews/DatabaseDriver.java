@@ -12,9 +12,9 @@ public class DatabaseDriver {
     }
 
     public void connect() throws SQLException {
-//        if (connection != null && !connection.isClosed()) {
-//            throw new IllegalStateException("The connection is already opened");
-//        }
+        if (connection != null && !connection.isClosed()) {
+            throw new IllegalStateException("The connection is already opened");
+        }
         connection = DriverManager.getConnection("jdbc:sqlite:" + sqliteFilename);
         //the next line enables foreign key enforcement - do not delete/comment out
         connection.createStatement().execute("PRAGMA foreign_keys = ON");
