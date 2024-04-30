@@ -51,6 +51,8 @@ public class DatabaseDriver {
         if (resultSet.next()) {
             password = resultSet.getString("password");
         }
+        preparedStatement.close();
+        resultSet.close();
         return password;
     }
 
@@ -60,6 +62,7 @@ public class DatabaseDriver {
         preparedStatement.setString(1, username);
         preparedStatement.setString(2, password);
         preparedStatement.executeUpdate();
+        preparedStatement.close();
     }
 
     public Boolean checkUser(String username, String password) throws SQLException {
@@ -69,8 +72,12 @@ public class DatabaseDriver {
         ResultSet resultSet = preparedStatement.executeQuery();
         if (resultSet.next()) {
             String storedPassword = resultSet.getString("password");
+            preparedStatement.close();
+            resultSet.close();
             return password.equals(storedPassword);
         } else {
+            preparedStatement.close();
+            resultSet.close();
             return false;
         }
     }

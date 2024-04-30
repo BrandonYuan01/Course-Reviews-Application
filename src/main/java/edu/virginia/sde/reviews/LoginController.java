@@ -55,8 +55,6 @@ public class LoginController {
     }
     @FXML
     public void signUp() throws SQLException {
-        System.out.println(username.getText());
-        System.out.println(databaseDriver.getPassword(username.getText()));
         if (username.getText().equals("") || password.getText().equals("")){
             Login.setText("Enter a valid username and password");
         }

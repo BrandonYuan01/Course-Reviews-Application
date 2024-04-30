@@ -22,7 +22,7 @@
           <PasswordField fx:id="password" layoutX="603.0" layoutY="379.0" />
           <TextField fx:id="username" layoutX="603.0" layoutY="340.0" />
           <Button layoutX="536.0" layoutY="434.0" mnemonicParsing="false" onMouseClicked="#userLogin" prefHeight="50.0" prefWidth="106.0" text="Log In" />
-      <Label fx:id="Login" alignment="CENTER" contentDisplay="CENTER" layoutX="425.0" layoutY="409.0" prefHeight="18.0" prefWidth="356.0" textAlignment="CENTER" />
+      <Label fx:id="Login" alignment="CENTER" contentDisplay="CENTER" layoutX="411.0" layoutY="409.0" prefHeight="18.0" prefWidth="356.0" textAlignment="CENTER" />
       <Button layoutX="536.0" layoutY="591.0" mnemonicParsing="false" onMouseClicked="#exit" prefHeight="50.0" prefWidth="106.0" text="Exit App" />
       <Button layoutX="536.0" layoutY="512.0" mnemonicParsing="false" onMouseClicked="#signUp" onMousePressed="#signUp" prefHeight="50.0" prefWidth="106.0" text="Sign up" />
     </children>
