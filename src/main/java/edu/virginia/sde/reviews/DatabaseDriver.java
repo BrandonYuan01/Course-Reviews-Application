@@ -1,11 +1,13 @@
 package edu.virginia.sde.reviews;
-import java.sql .*;
+import java.sql.*;
+import java.util.List;
+
 public class DatabaseDriver {
     private String sqliteFilename;
     private Connection connection;
     private static final String CREATEUSERS = "CREATE TABLE IF NOT EXISTS Users (username TEXT PRIMARY KEY, password TEXT NOT NULL)";
     private static final String CREATECOURSES = "CREATE TABLE IF NOT EXISTS Courses (courseid INTEGER PRIMARY KEY, coursenumber INTEGER NOT NULL, subject TEXT NOT NULL, title TEXT NOT NULL)";
-    private static final String CREATEREVIEWS = "CREATE TABLE IF NOT EXISTS Reviews (reviewid INTEGER PRIMARY KEY, rating INTEGER, review TEXT, username TEXT REFERENCES Users(username), courseid REFERENCES Courses(courseid))";
+    private static final String CREATEREVIEWS = "CREATE TABLE IF NOT EXISTS Reviews (rating INTEGER, times TEXT, comment TEXT, username TEXT REFERENCES Users(username), courseid INTEGER REFERENCES Courses(courseid))";
 
     public DatabaseDriver(String sqlListDatabaseFilename) {
         this.sqliteFilename = sqlListDatabaseFilename;
@@ -82,56 +84,50 @@ public class DatabaseDriver {
         }
 
     }
-    public int getCourseNumber(int courseid) throws SQLException {
-        String userQuery = "SELECT coursenumber FROM Courses WHERE courseid = ?";
-        int courseNumber = -1;
 
-        PreparedStatement preparedStatement = connection.prepareStatement(userQuery);
-        preparedStatement.setInt(1, courseid);
-        ResultSet resultSet = preparedStatement.executeQuery();
-        if (resultSet.next()) {
-            courseNumber = resultSet.getInt("coursenumber");
-        }
+    public void addCourse(Course course) throws SQLException {
+        String query = "INSERT INTO Courses (coursenumber, subject, title) VALUES (?, ?, ?)";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setInt(1, course.getCourseNumber());
+        preparedStatement.setString(2, course.getSubject());
+        preparedStatement.setString(3, course.getTitle());
         preparedStatement.close();
-        resultSet.close();
-        return courseNumber;
     }
 
-    public String getSubject(int courseid) throws SQLException {
-        String userQuery = "SELECT subject FROM Courses WHERE courseid = ?";
-        String subject = null;
-
-        PreparedStatement preparedStatement = connection.prepareStatement(userQuery);
-        preparedStatement.setInt(1, courseid);
+    public int getCourseID(Course course) throws SQLException {
+        int courseid = -1;
+        String query = "SELECT * FROM Courses WHERE (coursenumber, subject, title) = (?, ?, ?)";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setInt(1, course.getCourseNumber());
+        preparedStatement.setString(2, course.getSubject());
+        preparedStatement.setString(3, course.getTitle());
         ResultSet resultSet = preparedStatement.executeQuery();
         if (resultSet.next()) {
-            subject = resultSet.getString("subject");
+            courseid = resultSet.getInt("courseid");
         }
         preparedStatement.close();
         resultSet.close();
-        return subject;
+        return courseid;
     }
 
-    public String getTitle(int courseid) throws SQLException {
-        String userQuery = "SELECT title FROM Courses WHERE courseid = ?";
-        String title = null;
+    public void addReview(Review review) throws SQLException{
+        String query = "INSERT INTO Users (rating, times, comment, username, courseid) VALUES (?, ?, ?, ?, ?)";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setInt(1, review.getRating());
+        preparedStatement.setString(2, review.getTimestamp().toString());
+        preparedStatement.setString(3, review.getComment());
+        preparedStatement.setString(4, review.getUsername());
 
-        PreparedStatement preparedStatement = connection.prepareStatement(userQuery);
-        preparedStatement.setInt(1, courseid);
-        ResultSet resultSet = preparedStatement.executeQuery();
-        if (resultSet.next()) {
-            title = resultSet.getString("title");
-        }
+        Course course = review.getCourse();
+        preparedStatement.setInt(5, getCourseID(course));
+        preparedStatement.executeUpdate();
         preparedStatement.close();
-        resultSet.close();
-        return title;
     }
 
 //    public static void main(String[] args) throws SQLException {
 //        DatabaseDriver manager = new DatabaseDriver("database.sqlite");
 //        manager.connect();
 //        manager.createTables();
-//        manager.addUser("hi", "123");
 //        manager.commit();
 //        manager.disconnect();
 //    }
