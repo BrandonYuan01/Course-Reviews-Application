@@ -1,19 +1,14 @@
 package edu.virginia.sde.reviews;
 
-import com.sun.tools.javac.Main;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 
-import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -38,25 +33,38 @@ public class LoginController {
     }
 
     @FXML
-    public void userLogin() throws SQLException {
+    public void userLogin() throws SQLException, IOException {
         if (databaseDriver.checkUser(username.getText(), password.getText())) {
-//            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("test.fxml"));
-//            Parent root = fxmlLoader.load();
-//            Scene scene = new Scene(root);
-//            stage.setScene(scene);
-//            stage.setTitle("test");
-//
-//            TestController testController = fxmlLoader.getController();
-//            testController.setStage(stage);
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("test.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
+
+            CourseSearchController courseSearchController = fxmlLoader.getController();
+            courseSearchController.setStage(stage);
+            stage.setScene(scene);
+            stage.setTitle("test");
+
             Login.setText("Login successful");
-        } else {
-            Login.setText("Invalid login information");
+        }
+        else if (username.getText().equals("") && password.getText().equals("")) {
+            Login.setText("Username and password cannot be empty");
+        }
+        else if (username.getText().equals("")) {
+            Login.setText("Username cannot be empty");
+        }
+        else if (password.getText().equals("")) {
+            Login.setText("Password cannot be empty");
         }
     }
     @FXML
     public void signUp() throws SQLException {
-        if (username.getText().equals("") || password.getText().equals("")){
-            Login.setText("Enter a valid username and password");
+        if (username.getText().equals("") && password.getText().equals("")) {
+            Login.setText("Username and password cannot be empty");
+        }
+        else if (username.getText().equals("")) {
+            Login.setText("Username cannot be empty");
+        }
+        else if (password.getText().equals("")) {
+            Login.setText("Password cannot be empty");
         }
         else if (databaseDriver.getPassword(username.getText()) != null) {
             Login.setText("Username already taken");

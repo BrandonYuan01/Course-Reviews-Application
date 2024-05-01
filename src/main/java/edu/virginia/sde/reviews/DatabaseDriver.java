@@ -80,6 +80,51 @@ public class DatabaseDriver {
             resultSet.close();
             return false;
         }
+
+    }
+    public int getCourseNumber(int courseid) throws SQLException {
+        String userQuery = "SELECT coursenumber FROM Courses WHERE courseid = ?";
+        int courseNumber = -1;
+
+        PreparedStatement preparedStatement = connection.prepareStatement(userQuery);
+        preparedStatement.setInt(1, courseid);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet.next()) {
+            courseNumber = resultSet.getInt("coursenumber");
+        }
+        preparedStatement.close();
+        resultSet.close();
+        return courseNumber;
+    }
+
+    public String getSubject(int courseid) throws SQLException {
+        String userQuery = "SELECT subject FROM Courses WHERE courseid = ?";
+        String subject = null;
+
+        PreparedStatement preparedStatement = connection.prepareStatement(userQuery);
+        preparedStatement.setInt(1, courseid);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet.next()) {
+            subject = resultSet.getString("subject");
+        }
+        preparedStatement.close();
+        resultSet.close();
+        return subject;
+    }
+
+    public String getTitle(int courseid) throws SQLException {
+        String userQuery = "SELECT title FROM Courses WHERE courseid = ?";
+        String title = null;
+
+        PreparedStatement preparedStatement = connection.prepareStatement(userQuery);
+        preparedStatement.setInt(1, courseid);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet.next()) {
+            title = resultSet.getString("title");
+        }
+        preparedStatement.close();
+        resultSet.close();
+        return title;
     }
 
 //    public static void main(String[] args) throws SQLException {
