@@ -35,7 +35,7 @@ public class LoginController {
     @FXML
     public void userLogin() throws SQLException, IOException {
         if (databaseDriver.checkUser(username.getText(), password.getText())) {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("test.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("coursesearch.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
 
             CourseSearchController courseSearchController = fxmlLoader.getController();
