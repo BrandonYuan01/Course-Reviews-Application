@@ -39,9 +39,6 @@ public class LoginController {
             CourseSearchController courseSearchController = fxmlLoader.getController();
             courseSearchController.setStage(stage);
             stage.setScene(scene);
-            stage.setTitle("test");
-
-            Login.setText("Login successful");
         }
         else if (username.getText().equals("") && password.getText().equals("")) {
             Login.setText("Username and password cannot be empty");
@@ -51,6 +48,9 @@ public class LoginController {
         }
         else if (password.getText().equals("")) {
             Login.setText("Password cannot be empty");
+        }
+        else {
+            Login.setText("Invalid username or password");
         }
     }
     @FXML
