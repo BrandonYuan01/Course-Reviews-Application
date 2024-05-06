@@ -26,7 +26,7 @@ public class MainTest extends Application {
         Course sde = new Course(courseNumber, subject, title, reviews);
 
 
-        Review r1 = new Review(1, 5, new Timestamp(300000), "Good class", "student", sde);
+        Review r1 = new Review(1, 5, new Timestamp(System.currentTimeMillis()), "Good class", "student", sde);
         reviews.add(r1);
         sde.setReviews(reviews);
 
