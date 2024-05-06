@@ -10,7 +10,7 @@ public class Review {
     String username;
     Course course;
     public Review(int Id, int rating, Timestamp timestamp, String comment, String username, Course course){
-        this.ID = Id;
+        this.Id = Id;
         this.rating = rating;
         this.timestamp = timestamp;
         this.comment = comment;
