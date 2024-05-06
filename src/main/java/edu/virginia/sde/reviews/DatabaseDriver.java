@@ -7,7 +7,7 @@ public class DatabaseDriver {
     private Connection connection;
     private static final String CREATEUSERS = "CREATE TABLE IF NOT EXISTS Users (username TEXT PRIMARY KEY, password TEXT NOT NULL)";
     private static final String CREATECOURSES = "CREATE TABLE IF NOT EXISTS Courses (courseid INTEGER PRIMARY KEY, coursenumber INTEGER NOT NULL, subject TEXT NOT NULL, title TEXT NOT NULL)";
-    private static final String CREATEREVIEWS = "CREATE TABLE IF NOT EXISTS Reviews (rating INTEGER, times TEXT, comment TEXT, username TEXT REFERENCES Users(username), courseid INTEGER REFERENCES Courses(courseid))";
+    private static final String CREATEREVIEWS = "CREATE TABLE IF NOT EXISTS Reviews (id INTEGER PRIMARY KEY, rating INTEGER, times TEXT, comment TEXT, username TEXT REFERENCES Users(username), courseid INTEGER REFERENCES Courses(courseid))";
 
     public DatabaseDriver(String sqlListDatabaseFilename) {
         this.sqliteFilename = sqlListDatabaseFilename;
@@ -111,17 +111,31 @@ public class DatabaseDriver {
     }
 
     public void addReview(Review review) throws SQLException{
-        String query = "INSERT INTO Users (rating, times, comment, username, courseid) VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO Users (id, rating, times, comment, username, courseid) VALUES (?, ?, ?, ?, ?, ?)";
         PreparedStatement preparedStatement = connection.prepareStatement(query);
-        preparedStatement.setInt(1, review.getRating());
-        preparedStatement.setString(2, review.getTimestamp().toString());
-        preparedStatement.setString(3, review.getComment());
-        preparedStatement.setString(4, review.getUsername());
+        preparedStatement.setInt(1, review.getId());
+        preparedStatement.setInt(2, review.getRating());
+        preparedStatement.setString(3, review.getTimestamp().toString());
+        preparedStatement.setString(4, review.getComment());
+        preparedStatement.setString(5, review.getUsername());
 
         Course course = review.getCourse();
-        preparedStatement.setInt(5, getCourseID(course));
+        preparedStatement.setInt(6, getCourseID(course));
         preparedStatement.executeUpdate();
         preparedStatement.close();
+    }
+
+    public void deleteReview(int Id) throws SQLException{
+        try {
+            String query = String.format("DELETE FROM Reviews WHERE id = %d", Id);
+            Statement statement = connection.createStatement();
+
+            statement.executeUpdate(query);
+            statement.close();
+        } catch (SQLException e){
+            System.out.println("Error deleting review.");
+            throw e;
+        }
     }
 
 //    public static void main(String[] args) throws SQLException {
