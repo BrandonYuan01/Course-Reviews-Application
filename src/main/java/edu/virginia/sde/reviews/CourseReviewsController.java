@@ -4,10 +4,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -41,6 +44,26 @@ public class CourseReviewsController {
         timeColumn.setCellValueFactory(new PropertyValueFactory<>("timestamp"));
         ratingColumn.setCellValueFactory(new PropertyValueFactory<>("rating"));
         commentColumn.setCellValueFactory(new PropertyValueFactory<>("comment"));
+
+        // I got the following code from URL: https://forums.oracle.com/ords/apexds/post/wrappable-text-in-a-tableview-5312
+        // This code allows the text in the "comment" column to wrap rather than just show what it can, followed by ...
+        commentColumn.setCellFactory(new Callback<>() {
+            @Override
+            public TableCell<Review, String> call(TableColumn<Review, String> param) {
+                return new TableCell<>() {
+                    @Override
+                    public void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (!isEmpty()) {
+                            Text text = new Text(item);
+                            text.setWrappingWidth(950);
+                            setGraphic(text);
+                        }
+                    }
+                };
+            }
+
+        });
 
         List<Review> reviews = course.getReviews();
         reviewTable.getItems().addAll(reviews);

@@ -25,10 +25,15 @@ public class MainTest extends Application {
         List<Review> reviews = new ArrayList<>();
         Course sde = new Course(courseNumber, subject, title, reviews);
 
+        String comment = "I really enjoyed this class. We learned a lot about software development, and so much of the course" +
+                " content applies to the real world. This class has prepared me for my career as a software developer. The professor" +
+                " was fun and engaging, yet his lectures were informative and insightful. I would highly recommend this class with this professor" +
+                " to any prospective computer science students.";
+        Review r1 = new Review(1, 5, new Timestamp(System.currentTimeMillis()), comment, "student", sde);
+        sde.addReview(r1);
 
-        Review r1 = new Review(1, 5, new Timestamp(System.currentTimeMillis()), "Good class", "student", sde);
-        reviews.add(r1);
-        sde.setReviews(reviews);
+        Review r2 = new Review(2, 3, new Timestamp(System.currentTimeMillis()), "This class was hard", "hi", sde);
+        sde.addReview(r2);
 
 
         CourseReviewsController courseReviewsController = fxmlLoader.getController();
