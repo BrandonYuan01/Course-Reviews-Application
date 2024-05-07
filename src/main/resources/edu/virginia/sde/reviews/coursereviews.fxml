@@ -25,7 +25,7 @@
       </Label>
       <Button layoutX="10.0" layoutY="480.0" mnemonicParsing="false" onAction="#addReview" text="Add Review" />
       <Button layoutX="103.0" layoutY="480.0" mnemonicParsing="false" text="Edit Review" />
-      <Button layoutX="195.0" layoutY="480.0" mnemonicParsing="false" text="Delete Review" />
+      <Button layoutX="195.0" layoutY="480.0" mnemonicParsing="false" onAction="#deleteReview" text="Delete Review" />
       <Label fx:id="myReviewLabel" layoutX="301.0" layoutY="487.0" textFill="RED" />
    </children>
 </AnchorPane>
