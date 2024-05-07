@@ -10,8 +10,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 
 import java.io.IOException;
-import java.sql.Timestamp;
-import java.util.ArrayList;
+import java.sql.SQLException;
 import java.util.List;
 
 public class CourseReviewsController {
@@ -71,14 +70,14 @@ public class CourseReviewsController {
         reviewTable.getItems().addAll(reviews);
     }
 
-    private boolean userHasReview(){
+    private int getUserReviewId(){
         List<Review> reviews = course.getReviews();
         for (Review review : reviews){
             if (review.getUsername().equals(username)){
-                return true;
+                return review.getId();
             }
         }
-        return false;
+        return -1;
     }
 
     @FXML
@@ -98,7 +97,7 @@ public class CourseReviewsController {
 
     @FXML
     public void addReview() throws IOException{
-        if (userHasReview()){
+        if (getUserReviewId() != -1){
             myReviewLabel.setText("You have already written a review for this course.");
         }
         else{
@@ -108,6 +107,26 @@ public class CourseReviewsController {
             AddReviewController addReviewController = fxmlLoader.getController();
             addReviewController.setStage(stage, username);
             stage.setScene(scene);
+        }
+    }
+
+    @FXML
+    public void deleteReview() throws SQLException{
+        if (getUserReviewId() == -1){
+            myReviewLabel.setText("You have not written a review for this course yet.");
+        }
+        else{
+            //TODO: Change GUI when review is deleted as well
+            try {
+                int id = getUserReviewId();
+                databaseDriver.deleteReview(id);
+                databaseDriver.commit();
+                myReviewLabel.setText("Review deleted successfully.");
+            } catch (SQLException e){
+                myReviewLabel.setText("Error occurred while trying to delete review.");
+                databaseDriver.rollback();
+                throw e;
+            }
         }
     }
 }
