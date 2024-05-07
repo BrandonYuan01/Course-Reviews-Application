@@ -3,13 +3,13 @@ package edu.virginia.sde.reviews;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.ListIterator;
 
 public class CourseSearchController {
     private Stage stage;
@@ -26,6 +26,8 @@ public class CourseSearchController {
     private MenuItem logOut;
     @FXML
     private MenuItem myReviews;
+    @FXML
+    private ListView courseList;
     public void setStage(Stage stage){
         this.stage = stage;
     }
@@ -54,5 +56,15 @@ public class CourseSearchController {
         myReviewController.setStage(stage);
         stage.setTitle("Course Review");
         stage.setScene(scene);
+    }
+
+    @FXML
+    public void CourseDisplay() throws SQLException, IOException {
+        List<Course> courses = databaseDriver.allCourses();
+//        for (var course : courses) {
+//            course.setReviews(databaseDriver.getReviewsOfCourse(course));
+//        }
+        courseList.getItems().setAll(courses);
+
     }
 }

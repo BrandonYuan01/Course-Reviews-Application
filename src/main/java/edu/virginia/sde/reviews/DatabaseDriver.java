@@ -1,5 +1,6 @@
 package edu.virginia.sde.reviews;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseDriver {
@@ -108,6 +109,23 @@ public class DatabaseDriver {
         preparedStatement.close();
         resultSet.close();
         return courseid;
+    }
+    public List<Course> allCourses() throws SQLException {
+        List<Course> courses = new ArrayList<>();
+        List<Review> reviews = new ArrayList<>();
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM Courses");
+
+        while(resultSet.next()) {
+            String subject = resultSet.getString("Subject");
+            int courseNumber = resultSet.getInt("Number");
+            String title = resultSet.getString("Title");
+
+            courses.add(new Course(courseNumber, subject, title, reviews));
+        }
+        resultSet.close();
+        statement.close();
+        return courses;
     }
 
     public void addReview(Review review) throws SQLException{
