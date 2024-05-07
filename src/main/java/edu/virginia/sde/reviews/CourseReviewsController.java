@@ -3,10 +3,7 @@ package edu.virginia.sde.reviews;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -25,6 +22,8 @@ public class CourseReviewsController {
     @FXML
     private Label courseLabel;
     @FXML
+    private Label myReviewLabel;
+    @FXML
     private TableView<Review> reviewTable;
     @FXML
     private TableColumn<Review, String> timeColumn;
@@ -41,7 +40,6 @@ public class CourseReviewsController {
         courseLabel.setText(courseInfo);
 
         populateReviewTable();
-
     }
 
     private void populateReviewTable(){
@@ -96,5 +94,20 @@ public class CourseReviewsController {
         CourseSearchController courseSearchController = fxmlLoader.getController();
         courseSearchController.setStage(stage);
         stage.setScene(scene);
+    }
+
+    @FXML
+    public void addReview() throws IOException{
+        if (userHasReview()){
+            myReviewLabel.setText("You have already written a review for this course.");
+        }
+        else{
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("addreview.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
+
+            AddReviewController addReviewController = fxmlLoader.getController();
+            addReviewController.setStage(stage, username);
+            stage.setScene(scene);
+        }
     }
 }

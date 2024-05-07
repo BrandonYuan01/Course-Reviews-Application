@@ -23,5 +23,9 @@
             <Font size="24.0" />
          </font>
       </Label>
+      <Button layoutX="10.0" layoutY="480.0" mnemonicParsing="false" text="Add Review" />
+      <Button layoutX="103.0" layoutY="480.0" mnemonicParsing="false" text="Edit Review" />
+      <Button layoutX="195.0" layoutY="480.0" mnemonicParsing="false" text="Delete Review" />
+      <Label layoutX="301.0" layoutY="487.0" textFill="RED" />
    </children>
 </AnchorPane>
