@@ -14,10 +14,14 @@ public class DatabaseDriver {
         this.sqliteFilename = sqlListDatabaseFilename;
     }
 
+    public boolean isConnected() throws SQLException {
+        return connection != null && !connection.isClosed();
+    }
+
     public void connect() throws SQLException {
-//        if (connection != null && !connection.isClosed()) {
-//            throw new IllegalStateException("The connection is already opened");
-//        }
+        if (connection != null && connection.isClosed()) {
+            throw new IllegalStateException();
+        }
         connection = DriverManager.getConnection("jdbc:sqlite:" + sqliteFilename);
         //the next line enables foreign key enforcement - do not delete/comment out
         connection.createStatement().execute("PRAGMA foreign_keys = ON");
@@ -92,6 +96,7 @@ public class DatabaseDriver {
         preparedStatement.setInt(1, course.getCourseNumber());
         preparedStatement.setString(2, course.getSubject());
         preparedStatement.setString(3, course.getTitle());
+        preparedStatement.executeUpdate();
         preparedStatement.close();
     }
 
@@ -127,7 +132,29 @@ public class DatabaseDriver {
         statement.close();
         return courses;
     }
+    public List<Review> getReviewsofCourse(Course course) throws SQLException {
+        String findReviews = "SELECT * FROM Reviews WHERE CourseID = ?";
+        List<Review> reviews = new ArrayList<>();
+        PreparedStatement preparedStatement = connection.prepareStatement(findReviews);
+        preparedStatement.setInt(1, getCourseID(course));
+        ResultSet resultSet = preparedStatement.executeQuery();
 
+        while(resultSet.next()) {
+            int Id = resultSet.getInt("CourseID");
+            int rating  = resultSet.getInt("Rating");
+            String ts = resultSet.getString("Timestamp");
+            String comment = resultSet.getString("Review");
+            String user = resultSet.getString("UserID");
+
+            Timestamp timestamp = Timestamp.valueOf(ts);
+            Review review = new Review(Id, rating, timestamp, comment, user, course);
+            reviews.add(review);
+        }
+        resultSet.close();
+        preparedStatement.close();
+        return reviews;
+
+    }
     public void addReview(Review review) throws SQLException{
         String query = "INSERT INTO Users (id, rating, times, comment, username, courseid) VALUES (?, ?, ?, ?, ?, ?)";
         PreparedStatement preparedStatement = connection.prepareStatement(query);

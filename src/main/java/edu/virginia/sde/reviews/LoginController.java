@@ -64,7 +64,13 @@ public class LoginController {
     }
     @FXML
     public void exit() throws SQLException {
-        System.exit(1);
+        try {
+            databaseDriver.disconnect();
+        }
+        catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+        System.exit(0);
     }
 }
 

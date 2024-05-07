@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -23,6 +24,8 @@ public class CourseSearchController {
     @FXML
     private Button search;
     @FXML
+    private Button courseAdd;
+    @FXML
     private MenuItem logOut;
     @FXML
     private MenuItem myReviews;
@@ -32,8 +35,9 @@ public class CourseSearchController {
         this.stage = stage;
     }
     @FXML
-    private void initialize(){
+    private void initialize() throws SQLException {
         databaseDriver = DatabaseSingleton.getInstance();
+//        CourseDisplay();
     }
 
     @FXML
@@ -59,12 +63,23 @@ public class CourseSearchController {
     }
 
     @FXML
-    public void CourseDisplay() throws SQLException, IOException {
-        List<Course> courses = databaseDriver.allCourses();
+    public void CourseDisplay() throws SQLException {
+        try {
+            List<Course> courses = databaseDriver.allCourses();
 //        for (var course : courses) {
 //            course.setReviews(databaseDriver.getReviewsOfCourse(course));
 //        }
-        courseList.getItems().setAll(courses);
+            courseList.getItems().setAll(courses);
+        } catch (SQLException e) {
+            throw new SQLException();
+        }
+    }
 
+    @FXML
+    public void addCourse() throws SQLException, IOException {
+        List<Review> reviews = new ArrayList<>();
+        Course course = new Course(Integer.parseInt(courseNumber.getText()), subject.getText(), title.getText(), reviews);
+        databaseDriver.addCourse(course);
+        databaseDriver.commit();
     }
 }

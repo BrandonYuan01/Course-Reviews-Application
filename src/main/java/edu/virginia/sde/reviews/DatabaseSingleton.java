@@ -4,7 +4,6 @@ import java.sql.SQLException;
 
 public class DatabaseSingleton {
     private static DatabaseSingleton instance;
-
     private DatabaseDriver databaseDriver;
     private DatabaseSingleton(DatabaseDriver driver) {
         this.databaseDriver = driver;
@@ -16,10 +15,14 @@ public class DatabaseSingleton {
                 DatabaseDriver driver = new DatabaseDriver("database.sqlite");
                 instance = new DatabaseSingleton(driver);
             }
-            instance.databaseDriver.connect();
+
+            if (!instance.databaseDriver.isConnected()) {
+                instance.databaseDriver.connect();
+            }
         } catch(SQLException e) {
             return null;
         }
+
         return instance.databaseDriver;
     }
 }

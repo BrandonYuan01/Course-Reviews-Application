@@ -11,13 +11,13 @@
 
 <AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.virginia.sde.reviews.CourseSearchController">
    <children>
-      <TextField layoutX="87.0" layoutY="14.0" />
-      <TextField layoutX="384.0" layoutY="14.0" />
+      <TextField fx:id="subject" layoutX="87.0" layoutY="14.0" />
+      <TextField fx:id="courseNumber" layoutX="384.0" layoutY="14.0" />
       <Label layoutX="29.0" layoutY="18.0" text="Subject:" />
       <Label layoutX="280.0" layoutY="18.0" text="Course Number:" />
       <Label layoutX="578.0" layoutY="18.0" text="Title:" />
-      <TextField layoutX="611.0" layoutY="14.0" />
-      <Button layoutX="815.0" layoutY="14.0" mnemonicParsing="false" text="Search" />
+      <TextField fx:id="title" layoutX="611.0" layoutY="14.0" />
+      <Button layoutX="791.0" layoutY="14.0" mnemonicParsing="false" text="Search" />
       <ScrollPane layoutY="54.0" prefHeight="667.0" prefWidth="1280.0">
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="666.0" prefWidth="1430.0">
@@ -32,5 +32,6 @@
           <MenuItem fx:id="logOut" mnemonicParsing="false" onAction="#logoff" text="Log Out" />
         </items>
       </MenuButton>
+      <Button layoutX="888.0" layoutY="14.0" mnemonicParsing="false" onMousePressed="#addCourse" text="Add Course" />
    </children>
 </AnchorPane>

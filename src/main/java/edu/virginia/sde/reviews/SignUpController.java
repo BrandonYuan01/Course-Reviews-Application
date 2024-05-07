@@ -61,4 +61,14 @@ public class SignUpController {
         loginController.setStage(stage);
         stage.setScene(scene);
     }
+    @FXML
+    public void exit() throws SQLException {
+        try {
+            databaseDriver.disconnect();
+        }
+        catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+        System.exit(0);
+    }
 }
