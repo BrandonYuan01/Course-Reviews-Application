@@ -21,6 +21,7 @@ public class CourseReviewsController {
     private DatabaseDriver databaseDriver;
     private Stage stage;
     private Course course;
+    private String username;
     @FXML
     private Label courseLabel;
     @FXML
@@ -31,13 +32,16 @@ public class CourseReviewsController {
     private TableColumn<Review, Integer> ratingColumn;
     @FXML
     private TableColumn<Review, String> commentColumn;
-    public void setStage(Stage stage, Course course) {
+    public void setStage(Stage stage, Course course, String username) {
         this.stage = stage;
         this.course = course;
+        this.username = username;
+
         String courseInfo = String.format("%s %d: %s", course.getSubject(), course.getCourseNumber(), course.getTitle());
         courseLabel.setText(courseInfo);
 
         populateReviewTable();
+
     }
 
     private void populateReviewTable(){
@@ -67,6 +71,16 @@ public class CourseReviewsController {
 
         List<Review> reviews = course.getReviews();
         reviewTable.getItems().addAll(reviews);
+    }
+
+    private boolean userHasReview(){
+        List<Review> reviews = course.getReviews();
+        for (Review review : reviews){
+            if (review.getUsername().equals(username)){
+                return true;
+            }
+        }
+        return false;
     }
 
     @FXML

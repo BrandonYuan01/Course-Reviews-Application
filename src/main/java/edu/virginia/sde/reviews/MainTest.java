@@ -19,6 +19,8 @@ public class MainTest extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("coursereviews.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
 
+        String username = "student";
+
         int courseNumber = 3140;
         String subject = "CS";
         String title = "Software Development Essentials";
@@ -29,7 +31,7 @@ public class MainTest extends Application {
                 " content applies to the real world. This class has prepared me for my career as a software developer. The professor" +
                 " was fun and engaging, yet his lectures were informative and insightful. I would highly recommend this class with this professor" +
                 " to any prospective computer science students.";
-        Review r1 = new Review(1, 5, new Timestamp(System.currentTimeMillis()), comment, "student", sde);
+        Review r1 = new Review(1, 5, new Timestamp(System.currentTimeMillis()), comment, username, sde);
         sde.addReview(r1);
 
         Review r2 = new Review(2, 3, new Timestamp(System.currentTimeMillis()), "This class was hard", "hi", sde);
@@ -37,7 +39,7 @@ public class MainTest extends Application {
 
 
         CourseReviewsController courseReviewsController = fxmlLoader.getController();
-        courseReviewsController.setStage(stage, sde);
+        courseReviewsController.setStage(stage, sde, username);
         stage.setTitle("Course Review");
         stage.setScene(scene);
         stage.show();

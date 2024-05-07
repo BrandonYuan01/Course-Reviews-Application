@@ -11,12 +11,17 @@
          <font>
             <Font size="24.0" />
          </font></Label>
-      <TableView fx:id="reviewTable" layoutX="10.0" layoutY="40.0" prefHeight="200.0" prefWidth="1260.0">
+      <TableView fx:id="reviewTable" layoutX="10.0" layoutY="45.0" prefHeight="400.0" prefWidth="1260.0">
         <columns>
           <TableColumn fx:id="timeColumn" editable="false" prefWidth="200.0" text="Timestamp" />
           <TableColumn fx:id="ratingColumn" editable="false" prefWidth="100.0" text="Rating" />
             <TableColumn fx:id="commentColumn" editable="false" prefWidth="958.0" sortable="false" text="Comment" />
         </columns>
       </TableView>
+      <Label fx:id="courseLabel1" alignment="CENTER" layoutX="100.0" layoutY="450.0" prefHeight="17.0" prefWidth="1080.0" text="My Review" textAlignment="CENTER">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
