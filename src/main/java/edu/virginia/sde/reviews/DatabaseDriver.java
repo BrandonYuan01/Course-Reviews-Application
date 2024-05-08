@@ -132,7 +132,7 @@ public class DatabaseDriver {
         statement.close();
         return courses;
     }
-    public List<Review> getReviewsofCourse(Course course) throws SQLException {
+    public List<Review> getReviewsOfCourse(Course course) throws SQLException {
         String findReviews = "SELECT * FROM Reviews WHERE CourseID = ?";
         List<Review> reviews = new ArrayList<>();
         PreparedStatement preparedStatement = connection.prepareStatement(findReviews);
@@ -140,14 +140,14 @@ public class DatabaseDriver {
         ResultSet resultSet = preparedStatement.executeQuery();
 
         while(resultSet.next()) {
-            int Id = resultSet.getInt("CourseID");
-            int rating  = resultSet.getInt("Rating");
-            String ts = resultSet.getString("Timestamp");
-            String comment = resultSet.getString("Review");
-            String user = resultSet.getString("UserID");
+            int Id = resultSet.getInt("id");
+            int rating  = resultSet.getInt("rating");
+            Timestamp times = Timestamp.valueOf(resultSet.getString("times"));
+            String comment = resultSet.getString("comment");
+            String username = resultSet.getString("username");
+            int courseid = getCourseID(course);
 
-            Timestamp timestamp = Timestamp.valueOf(ts);
-            Review review = new Review(Id, rating, timestamp, comment, user, course);
+            Review review = new Review(Id, rating, times, comment, username, courseid);
             reviews.add(review);
         }
         resultSet.close();
@@ -164,8 +164,8 @@ public class DatabaseDriver {
         preparedStatement.setString(4, review.getComment());
         preparedStatement.setString(5, review.getUsername());
 
-        Course course = review.getCourse();
-        preparedStatement.setInt(6, getCourseID(course));
+        int course = review.getCourse();
+        preparedStatement.setInt(6, course);
         preparedStatement.executeUpdate();
         preparedStatement.close();
     }

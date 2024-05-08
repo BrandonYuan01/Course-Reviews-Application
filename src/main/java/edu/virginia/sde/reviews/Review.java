@@ -8,14 +8,14 @@ public class Review {
     Timestamp timestamp;
     String comment;
     String username;
-    Course course;
-    public Review(int Id, int rating, Timestamp timestamp, String comment, String username, Course course){
+    int courseid;
+    public Review(int Id, int rating, Timestamp timestamp, String comment, String username, int courseid){
         this.Id = Id;
         this.rating = rating;
         this.timestamp = timestamp;
         this.comment = comment;
         this.username = username;
-        this.course = course;
+        this.courseid = courseid;
     }
 
     public int getId() { return Id; }
@@ -54,11 +54,11 @@ public class Review {
         this.username = username;
     }
 
-    public Course getCourse() {
-        return course;
+    public int getCourse() {
+        return courseid;
     }
 
-    public void setCourse(Course course) {
-        this.course = course;
+    public void setCourse(int courseid) {
+        this.courseid = courseid;
     }
 }

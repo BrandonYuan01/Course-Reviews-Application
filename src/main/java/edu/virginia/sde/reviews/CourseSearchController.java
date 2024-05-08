@@ -37,7 +37,7 @@ public class CourseSearchController {
     @FXML
     private void initialize() throws SQLException {
         databaseDriver = DatabaseSingleton.getInstance();
-//        CourseDisplay();
+        CourseDisplay();
     }
 
     @FXML
@@ -66,9 +66,9 @@ public class CourseSearchController {
     public void CourseDisplay() throws SQLException {
         try {
             List<Course> courses = databaseDriver.allCourses();
-//        for (var course : courses) {
-//            course.setReviews(databaseDriver.getReviewsOfCourse(course));
-//        }
+        for (var course : courses) {
+            course.setReviews(databaseDriver.getReviewsOfCourse(course));
+        }
             courseList.getItems().setAll(courses);
         } catch (SQLException e) {
             throw new SQLException();
