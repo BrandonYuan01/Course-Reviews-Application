@@ -122,9 +122,9 @@ public class DatabaseDriver {
         ResultSet resultSet = statement.executeQuery("SELECT * FROM Courses");
 
         while(resultSet.next()) {
-            String subject = resultSet.getString("Subject");
-            int courseNumber = resultSet.getInt("Number");
-            String title = resultSet.getString("Title");
+            int courseNumber = resultSet.getInt("coursenumber");
+            String subject = resultSet.getString("subject");
+            String title = resultSet.getString("title");
 
             courses.add(new Course(courseNumber, subject, title, reviews));
         }

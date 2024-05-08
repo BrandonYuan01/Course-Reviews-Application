@@ -1,5 +1,8 @@
 package edu.virginia.sde.reviews;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Course {
@@ -49,5 +52,34 @@ public class Course {
 
     public void addReview(Review review) {
         this.reviews.add(review);
+    }
+
+    public int getRating() {
+        int total = 0;
+        int count = 0;
+        List<Review> reviews = this.getReviews();
+
+        for (var review : reviews) {
+            int rating  = review.getRating();
+            total += rating;
+            count += 1;
+        }
+        if (count == 0) {
+            return -1;
+        }
+        return total/count;
+    }
+    public String toString() {
+        String rating;
+        String subject = this.getSubject();
+        String courseNumber = String.format("%d", this.getCourseNumber());
+        String title = this.getTitle();
+        if (this.getRating() == -1) {
+            rating = "";
+        }
+        else {
+            rating = String.format("%.2f",this.getRating());
+        }
+        return subject + " " + courseNumber + ": " + title + " | " + rating;
     }
 }

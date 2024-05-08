@@ -1,7 +1,10 @@
 package edu.virginia.sde.reviews;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
@@ -15,6 +18,7 @@ import java.util.ListIterator;
 public class CourseSearchController {
     private Stage stage;
     private DatabaseDriver databaseDriver;
+    private String username;
     @FXML
     private TextField subject;
     @FXML
@@ -66,13 +70,24 @@ public class CourseSearchController {
     public void CourseDisplay() throws SQLException {
         try {
             List<Course> courses = databaseDriver.allCourses();
-        for (var course : courses) {
-            course.setReviews(databaseDriver.getReviewsOfCourse(course));
-        }
-            courseList.getItems().setAll(courses);
+            for (var course : courses) {
+                course.setReviews(databaseDriver.getReviewsOfCourse(course));
+            }
+            ObservableList<Course> observableList = FXCollections.observableArrayList(courses);
+            courseList.getItems().setAll(observableList);
         } catch (SQLException e) {
             throw new SQLException();
         }
+    }
+
+    @FXML
+    public void CourseReview() throws SQLException, IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("coursereviews.fxml"));
+        Course course = (Course) courseList.getSelectionModel().getSelectedItem();
+        courseList.getScene().setRoot(fxmlLoader.load());
+
+        CourseReviewsController courseReviewsController = fxmlLoader.getController();
+        courseReviewsController.setStage(stage, course, username);
     }
 
     @FXML

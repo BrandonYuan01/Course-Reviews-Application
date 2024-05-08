@@ -18,11 +18,11 @@
       <Label layoutX="578.0" layoutY="18.0" text="Title:" />
       <TextField fx:id="title" layoutX="611.0" layoutY="14.0" />
       <Button layoutX="791.0" layoutY="14.0" mnemonicParsing="false" text="Search" />
-      <ScrollPane layoutY="54.0" prefHeight="667.0" prefWidth="1280.0">
+      <ScrollPane hbarPolicy="NEVER" layoutY="54.0" prefHeight="667.0" prefWidth="1280.0">
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="666.0" prefWidth="1430.0">
                <children>
-                  <ListView fx:id="courseList" onEditStart="#CourseDisplay" prefHeight="652.0" prefWidth="1265.0" />
+                  <ListView fx:id="courseList" onMousePressed="#CourseReview" prefHeight="652.0" prefWidth="1265.0" />
                </children></AnchorPane>
         </content>
       </ScrollPane>
