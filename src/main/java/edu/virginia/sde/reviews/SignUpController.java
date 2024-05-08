@@ -34,18 +34,23 @@ public class SignUpController {
     public void signUp() throws SQLException {
         if (username.getText().equals("") && password.getText().equals("")) {
             Login.setText("Username and password cannot be empty");
+            Login.setTextFill(Color.RED);
         }
         else if (username.getText().equals("")) {
             Login.setText("Username cannot be empty");
+            Login.setTextFill(Color.RED);
         }
         else if (password.getText().equals("")) {
             Login.setText("Password cannot be empty");
+            Login.setTextFill(Color.RED);
         }
         else if (databaseDriver.getPassword(username.getText()) != null) {
             Login.setText("Username already taken");
+            Login.setTextFill(Color.RED);
         }
         else if (password.getText().length() < 8) {
             Login.setText("Your password must be at least 8 characters");
+            Login.setTextFill(Color.RED);
         }
         else if (!username.getText().equals("") && !password.getText().equals("")){
             Login.setText("Signup successful");

@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -52,27 +53,35 @@ public class AddCourseController {
             databaseDriver.addCourse(course);
             databaseDriver.commit();
             courseAdd.setText("Sucessfully added course");
+            courseAdd.setTextFill(Color.GREEN);
         }
         else if ((2 > subject.getText().length() || subject.getText().length() > 4) && courseNumber.getText().length() != 4 && title.getText().length() < 1) {
             courseAdd.setText("subject must be at least 2 characters and no greater than 4, course number must be 4 digits, and title must be at least 1 character");
+            courseAdd.setTextFill(Color.RED);
         }
         else if ((2 > subject.getText().length() || subject.getText().length() > 4) && courseNumber.getText().length() != 4) {
             courseAdd.setText("subject must be at least 2 characters and no greater than 4, and course number must be 4 digits");
+            courseAdd.setTextFill(Color.RED);
         }
         else if ((2 > subject.getText().length() || subject.getText().length() > 4) && title.getText().length() < 1) {
             courseAdd.setText("subject must be at least 2 characters and no greater than 4, and title must be at least 1 character");
+            courseAdd.setTextFill(Color.RED);
         }
         else if (courseNumber.getText().length() != 4 && title.getText().length() < 1) {
             courseAdd.setText("course number must be 4 digits, and title must be at least 1 character");
+            courseAdd.setTextFill(Color.RED);
         }
         else if (courseNumber.getText().length() != 4) {
             courseAdd.setText("course number must be 4 digits");
+            courseAdd.setTextFill(Color.RED);
         }
         else if (title.getText().length() < 1) {
             courseAdd.setText("title must be at least 1 character");
+            courseAdd.setTextFill(Color.RED);
         }
         else if (2 > subject.getText().length() || subject.getText().length() > 4) {
             courseAdd.setText("subject must be at least 2 characters and no greater than 4");
+            courseAdd.setTextFill(Color.RED);
         }
     }
     @FXML
