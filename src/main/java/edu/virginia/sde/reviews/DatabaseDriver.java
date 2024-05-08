@@ -1,5 +1,6 @@
 package edu.virginia.sde.reviews;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -207,25 +208,36 @@ public class DatabaseDriver {
         return reviewid;
     }
 
-    public Optional<Review> getReviewById(int Id) throws SQLException{
-        String query = "SELECT * FROM Reviews WHERE (id) = (?)";
+    public String getReviewCommentByUserAndCourse(String username, Course course) throws SQLException{
+        String comment = "";
+        String query = "SELECT * FROM Reviews WHERE (username, courseid) = (?, ?)";
         PreparedStatement preparedStatement = connection.prepareStatement(query);
-        preparedStatement.setInt(1, Id);
+        preparedStatement.setString(1, username);
+        preparedStatement.setInt(2, getCourseID(course));
 
         ResultSet rs = preparedStatement.executeQuery();
-
-        Optional<Review> result = Optional.empty();
-        if (rs.next()){
-            int rating = rs.getInt("rating");
-            Timestamp timestamp = Timestamp.valueOf(rs.getString("times"));
-            String comment = rs.getString("comment");
-            String username = rs.getString("username");
-            Course course = rs.getInt("courseid");
+        if (rs.next()) {
+            comment = rs.getString("comment");
         }
-
         preparedStatement.close();
         rs.close();
-        return result;
+        return comment;
+    }
+
+    public int getReviewRatingByUserAndCourse(String username, Course course) throws SQLException{
+        int rating = -1;
+        String query = "SELECT * FROM Reviews WHERE (username, courseid) = (?, ?)";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, username);
+        preparedStatement.setInt(2, getCourseID(course));
+
+        ResultSet rs = preparedStatement.executeQuery();
+        if (rs.next()) {
+            rating = rs.getInt("rating");
+        }
+        preparedStatement.close();
+        rs.close();
+        return rating;
     }
 }
 

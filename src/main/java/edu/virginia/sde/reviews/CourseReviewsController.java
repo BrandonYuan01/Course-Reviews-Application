@@ -53,6 +53,14 @@ public class CourseReviewsController {
 
         if (reviewId != -1){
             // TODO: Want to display review info on screen
+            try {
+                int rating = databaseDriver.getReviewRatingByUserAndCourse(username, course);
+                String comment = databaseDriver.getReviewCommentByUserAndCourse(username, course);
+                myReviewRating.setText(String.format("Rating: %d", rating));
+                myReviewComment.setText(String.format("Comment: %s", comment));
+            } catch (SQLException e) {
+                myReviewLabel.setText("Error fetching reviews.");
+            }
         }
 
         populateReviewTable();
@@ -153,11 +161,19 @@ public class CourseReviewsController {
     }
 
     @FXML
-    public void editReview() throws SQLException{
+    public void editReview() throws SQLException, IOException{
         int reviewId = databaseDriver.getReviewIdByUserAndCourse(username, course);
         databaseDriver.commit();
         if (reviewId == -1){
             myReviewLabel.setText("You have not written a review for this course yet.");
+        }
+        else{
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("editreview.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
+            EditReviewController editReviewController = fxmlLoader.getController();
+
+            editReviewController.setStage(stage, course, username);
+            stage.setScene(scene);
         }
     }
 }
