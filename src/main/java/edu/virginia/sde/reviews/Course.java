@@ -69,7 +69,7 @@ public class Course {
     public String toString() {
         String rating;
         String subject = "          " + this.getSubject();
-        String courseNumber = String.format("%s", this.getCourseNumber());
+        String courseNumber = String.format("%04d", this.getCourseNumber());
         String title = this.getTitle();
         if (this.getRating() == -1) {
             rating = "";

@@ -47,13 +47,21 @@ public class AddCourseController {
     }
     @FXML
     public void addCourse() throws SQLException, IOException {
-        if (2 <= subject.getText().length() && subject.getText().length() <= 4 && courseNumber.getText().length() == 4 && title.getText().length() >= 1) {
+        if (2 <= subject.getText().length() && subject.getText().length() <= 4 && courseNumber.getText().length() == 4 && title.getText().length() >= 1 && databaseDriver.checkCourse(Integer.parseInt(courseNumber.getText()), subject.getText(), title.getText())) {
             List<Review> reviews = new ArrayList<>();
+
             Course course = new Course(Integer.parseInt(courseNumber.getText()), subject.getText().toUpperCase(), title.getText(), reviews);
             databaseDriver.addCourse(course);
             databaseDriver.commit();
             courseAdd.setText("Sucessfully added course");
             courseAdd.setTextFill(Color.GREEN);
+            courseNumber.clear();
+            subject.clear();
+            title.clear();
+        }
+        else if (!databaseDriver.checkCourse(Integer.parseInt(courseNumber.getText()), subject.getText(), title.getText())) {
+            courseAdd.setText("course already exists");
+            courseAdd.setTextFill(Color.RED);
         }
         else if ((2 > subject.getText().length() || subject.getText().length() > 4) && courseNumber.getText().length() != 4 && title.getText().length() < 1) {
             courseAdd.setText("subject must be at least 2 characters and no greater than 4, course number must be 4 digits, and title must be at least 1 character");
