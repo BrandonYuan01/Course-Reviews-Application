@@ -89,7 +89,130 @@ public class DatabaseDriver {
         }
 
     }
-
+    public List<Course> findAll(int coursenumber, String subject, String title) throws SQLException {
+        List<Course> courses = new ArrayList<>();
+        List<Review> reviews = new ArrayList<>();
+        String query = "SELECT * FROM Courses WHERE coursenumber = ? AND UPPER(subject = ?) AND title LIKE ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setInt(1, coursenumber);
+        preparedStatement.setString(2, subject);
+        preparedStatement.setString(3, "%" + title + "%");
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+            int courseNumber = resultSet.getInt("coursenumber");
+            String Subject = resultSet.getString("subject");
+            String Title = resultSet.getString("title");
+            courses.add(new Course(courseNumber,Subject,Title,reviews));
+        }
+        preparedStatement.close();
+        resultSet.close();
+        return courses;
+    }
+    public List<Course> findSubjectTitle(String subject, String title) throws SQLException {
+        List<Course> courses = new ArrayList<>();
+        List<Review> reviews = new ArrayList<>();
+        String query = "SELECT * FROM Courses WHERE UPPER(subject = ?) AND title LIKE ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, subject);
+        preparedStatement.setString(2, "%" + title + "%");
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+            int courseNumber = resultSet.getInt("coursenumber");
+            String Subject = resultSet.getString("subject");
+            String Title = resultSet.getString("title");
+            courses.add(new Course(courseNumber,Subject,Title,reviews));
+        }
+        preparedStatement.close();
+        resultSet.close();
+        return courses;
+    }
+    public List<Course> findCourseNumberTitle(int coursenumber, String title) throws SQLException {
+        List<Course> courses = new ArrayList<>();
+        List<Review> reviews = new ArrayList<>();
+        String query = "SELECT * FROM Courses WHERE coursenumber = ? AND title LIKE ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setInt(1, coursenumber);
+        preparedStatement.setString(2, "%" + title + "%");
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+            int courseNumber = resultSet.getInt("coursenumber");
+            String Subject = resultSet.getString("subject");
+            String Title = resultSet.getString("title");
+            courses.add(new Course(courseNumber,Subject,Title,reviews));
+        }
+        preparedStatement.close();
+        resultSet.close();
+        return courses;
+    }
+    public List<Course> findCourseNumberSubject(int coursenumber, String subject) throws SQLException {
+        List<Course> courses = new ArrayList<>();
+        List<Review> reviews = new ArrayList<>();
+        String query = "SELECT * FROM Courses WHERE coursenumber = ? AND UPPER(subject = ?)";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setInt(1, coursenumber);
+        preparedStatement.setString(2, subject);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+            int courseNumber = resultSet.getInt("coursenumber");
+            String Subject = resultSet.getString("subject");
+            String Title = resultSet.getString("title");
+            courses.add(new Course(courseNumber,Subject,Title,reviews));
+        }
+        preparedStatement.close();
+        resultSet.close();
+        return courses;
+    }
+    public List<Course> findCourseNumber(int coursenumber) throws SQLException {
+        List<Course> courses = new ArrayList<>();
+        List<Review> reviews = new ArrayList<>();
+        String query = "SELECT * FROM Courses WHERE coursenumber = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setInt(1, coursenumber);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+            int courseNumber = resultSet.getInt("coursenumber");
+            String subject = resultSet.getString("subject");
+            String title = resultSet.getString("title");
+            courses.add(new Course(courseNumber,subject,title,reviews));
+        }
+        preparedStatement.close();
+        resultSet.close();
+        return courses;
+    }
+    public List<Course> findCourseSubject(String subject) throws SQLException {
+        List<Course> courses = new ArrayList<>();
+        List<Review> reviews = new ArrayList<>();
+        String query = "SELECT * FROM Courses WHERE UPPER(subject = ?)";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, subject);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+            int courseNumber = resultSet.getInt("coursenumber");
+            String Subject = resultSet.getString("subject");
+            String title = resultSet.getString("title");
+            courses.add(new Course(courseNumber, Subject, title, reviews));
+        }
+        preparedStatement.close();
+        resultSet.close();
+        return courses;
+    }
+    public List<Course> findCourseTitle(String title) throws SQLException {
+        List<Course> courses = new ArrayList<>();
+        List<Review> reviews = new ArrayList<>();
+        String query = "SELECT * FROM Courses WHERE title LIKE ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, "%" + title + "%");
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+            int courseNumber = resultSet.getInt("coursenumber");
+            String Subject = resultSet.getString("subject");
+            String Title = resultSet.getString("title");
+            courses.add(new Course(courseNumber, Subject, Title, reviews));
+        }
+        preparedStatement.close();
+        resultSet.close();
+        return courses;
+    }
     public void addCourse(Course course) throws SQLException {
         String query = "INSERT INTO Courses (coursenumber, subject, title) VALUES (?, ?, ?)";
         PreparedStatement preparedStatement = connection.prepareStatement(query);

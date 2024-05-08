@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.UnaryOperator;
 
 public class CourseSearchController {
     private Stage stage;
@@ -39,7 +40,57 @@ public class CourseSearchController {
     @FXML
     private void initialize() throws SQLException {
         databaseDriver = DatabaseSingleton.getInstance();
+        subject.setTextFormatter(formatter("[a-zA-Z]{0,4}"));
+        title.setTextFormatter(formatter(".{0,50}"));
+        courseNumber.setTextFormatter(formatter("[0-9]{0,4}"));
         CourseDisplay();
+    }
+
+    @FXML
+    public void search() throws SQLException {
+        List<Course> courseMatches = new ArrayList<>();
+        if (!courseNumber.getText().equals("") && !subject.getText().equals("") && !title.getText().equals("")) {
+            courseMatches = databaseDriver.findAll(Integer.parseInt(courseNumber.getText()), subject.getText().toUpperCase(), title.getText());
+        }
+        else if (courseNumber.getText().equals("") && !subject.getText().equals("") && !title.getText().equals("")) {
+            courseMatches = databaseDriver.findSubjectTitle(subject.getText().toUpperCase(), title.getText());
+        }
+        else if (!courseNumber.getText().equals("") && subject.getText().equals("") && !title.getText().equals("")) {
+            courseMatches = databaseDriver.findCourseNumberTitle(Integer.parseInt(courseNumber.getText()), title.getText());
+        }
+        else if (!courseNumber.getText().equals("") && !subject.getText().equals("") && title.getText().equals("")) {
+            courseMatches = databaseDriver.findCourseNumberSubject(Integer.parseInt(courseNumber.getText()), subject.getText().toUpperCase());
+        }
+        else if (!courseNumber.getText().equals("") && subject.getText().equals("") && title.getText().equals("")) {
+            courseMatches = databaseDriver.findCourseNumber(Integer.parseInt(courseNumber.getText()));
+        }
+        else if (!subject.getText().equals("") && courseNumber.getText().equals("") && title.getText().equals("")) {
+            courseMatches = databaseDriver.findCourseSubject(subject.getText().toUpperCase());
+        }
+        else if (!title.getText().equals("") && subject.getText().equals("") && courseNumber.getText().equals("")) {
+            courseMatches = databaseDriver.findCourseTitle(title.getText());
+        } else {
+            CourseDisplay();
+            return;
+        }
+        for (var course : courseMatches) {
+            course.setReviews(databaseDriver.getReviewsOfCourse(course));
+        }
+        ObservableList<Course> observableList = FXCollections.observableArrayList(courseMatches);
+        courseList.getItems().setAll(observableList);
+    }
+
+
+    public TextFormatter<String> formatter (String pattern) {
+        UnaryOperator<TextFormatter.Change> format = change -> {
+            String newText = change.getControlNewText();
+            if (newText.matches(pattern)) {
+                return change;
+            } else {
+                return null;
+            }
+        };
+        return new TextFormatter<String>(format);
     }
 
     @FXML
@@ -66,16 +117,12 @@ public class CourseSearchController {
 
     @FXML
     public void CourseDisplay() throws SQLException {
-        try {
-            List<Course> courses = databaseDriver.allCourses();
-            for (var course : courses) {
-                course.setReviews(databaseDriver.getReviewsOfCourse(course));
-            }
-            ObservableList<Course> observableList = FXCollections.observableArrayList(courses);
-            courseList.getItems().setAll(observableList);
-        } catch (SQLException e) {
-            throw new SQLException();
+        List<Course> courses = databaseDriver.allCourses();
+        for (var course : courses) {
+            course.setReviews(databaseDriver.getReviewsOfCourse(course));
         }
+        ObservableList<Course> observableList = FXCollections.observableArrayList(courses);
+        courseList.getItems().setAll(observableList);
     }
 
     @FXML
@@ -90,9 +137,17 @@ public class CourseSearchController {
 
     @FXML
     public void addCourse() throws SQLException, IOException {
-        List<Review> reviews = new ArrayList<>();
-        Course course = new Course(Integer.parseInt(courseNumber.getText()), subject.getText(), title.getText(), reviews);
-        databaseDriver.addCourse(course);
-        databaseDriver.commit();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("addcourse.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+
+        AddCourseController addCourseController = fxmlLoader.getController();
+        addCourseController.setStage(stage);
+        stage.setTitle("Course Review");
+        stage.setScene(scene);
+
+//        List<Review> reviews = new ArrayList<>();
+//        Course course = new Course(Integer.parseInt(courseNumber.getText()), subject.getText(), title.getText(), reviews);
+//        databaseDriver.addCourse(course);
+//        databaseDriver.commit();
     }
 }
