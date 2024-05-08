@@ -12,9 +12,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
-// todo list
-// function for submit button
-
 public class AddReviewController {
     private Stage stage;
     private String username;
@@ -54,40 +51,37 @@ public class AddReviewController {
     }
 
     @FXML
-    public void submit() {
+    public void submit() throws SQLException {
         String rating = ratingField.getText();
         if (rating.isEmpty()){
             errorLabel.setText("Rating cannot be empty.");
+            return;
         }
         else if (!rating.matches("[1-5]")){
             errorLabel.setText("Rating must be an integer from 1 to 5.");
+            return;
         }
-        else{
-            String comment = commentArea.getText();
-            int id;
-            try {
-                id = databaseDriver.getNextAvailableId();
-            } catch (SQLException e){
-                errorLabel.setText("Failed to get next available Id for the review.");
-                return;
-            }
 
-            int intRating = Integer.parseInt(rating);
-            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-            Review review = new Review(id, intRating, timestamp, comment, username, course);
-            try {
-                databaseDriver.addReview(review);
-                databaseDriver.commit();
-            } catch (SQLException e){
-                errorLabel.setText("Failed to add review to database.");
-                return;
-            }
-
-            try {
-                back();
-            } catch (IOException e){
-                errorLabel.setText("Failed to go back to Course Review scene.");
-            }
+        String comment = commentArea.getText();
+        int intRating = Integer.parseInt(rating);
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        Review review = new Review(intRating, timestamp, comment, username, course);
+        try {
+            databaseDriver.addReview(review);
+            databaseDriver.commit();
+        } catch (SQLException e){
+            errorLabel.setText("Failed to add review to database.");
+            System.out.println(e.getMessage());
+            databaseDriver.rollback();
+            return;
         }
+
+        try {
+            course.addReview(review);
+            back();
+        } catch (IOException e){
+            errorLabel.setText("Failed to go back to Course Review scene.");
+        }
+
     }
 }

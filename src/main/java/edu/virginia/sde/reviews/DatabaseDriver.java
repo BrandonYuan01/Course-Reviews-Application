@@ -43,6 +43,45 @@ public class DatabaseDriver {
         statement.close();
     }
 
+    public void clearTables() throws SQLException {
+        try{
+            String deleteReviews = "DELETE FROM Reviews;";
+            String deleteCourses = "DELETE FROM Courses;";
+            String deleteUsers = "DELETE FROM Users;";
+            Statement sqlDeleteReviews = connection.createStatement();
+            Statement sqlDeleteCourses = connection.createStatement();
+            Statement sqlDeleteUsers = connection.createStatement();
+            sqlDeleteReviews.executeUpdate(deleteReviews);
+            sqlDeleteCourses.executeUpdate(deleteCourses);
+            sqlDeleteUsers.executeUpdate(deleteUsers);
+        } catch (SQLException e){
+            rollback();
+            throw e;
+        }
+    }
+
+    public void clearReviews() throws SQLException{
+        try{
+            String deleteReviews = "DELETE FROM Reviews;";
+            Statement sqlDeleteReviews = connection.createStatement();
+            sqlDeleteReviews.executeUpdate(deleteReviews);
+        } catch (SQLException e){
+            rollback();
+            throw e;
+        }
+    }
+
+    public void clearCourses() throws SQLException{
+        try{
+            String deleteCourses = "DELETE FROM Courses;";
+            Statement sqlDeleteCourses = connection.createStatement();
+            sqlDeleteCourses.executeUpdate(deleteCourses);
+        } catch (SQLException e){
+            rollback();
+            throw e;
+        }
+    }
+
     public String getPassword(String username) throws SQLException {
         String userQuery = "SELECT password FROM Users WHERE username = ?";
         String password = null;
@@ -112,21 +151,33 @@ public class DatabaseDriver {
     }
 
     public void addReview(Review review) throws SQLException{
-        int id = review.getId();
-        int rating = review.getRating();
-        String timestamp = review.getTimestamp().toString();
-        String comment = review.getComment();
-        String username = review.getUsername();
-        int courseId = getCourseID(review.getCourse());
-
-        String query = String.format("INSERT INTO Reviews VALUES (%d, %d, \"%s\", \"%s\", \"%s\", %d)", id, rating, timestamp, comment, username, courseId);
-        Statement statement = connection.createStatement();
-
-        statement.executeUpdate(query);
-        statement.close();
+        String query = "INSERT INTO Reviews (rating, times, comment, username, courseid) VALUES (?, ?, ?, ?, ?)";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setInt(1, review.getRating());
+        preparedStatement.setString(2, review.getTimestamp().toString());
+        preparedStatement.setString(3, review.getComment());
+        preparedStatement.setString(4, review.getUsername());
+        preparedStatement.setInt(5, getCourseID(review.getCourse()));
+        preparedStatement.execute();
+        preparedStatement.close();
     }
 
-    public void deleteReview(int Id) throws SQLException{
+    public int getReviewID(Review review) throws SQLException {
+        int reviewid = -1;
+        String query = "SELECT * FROM Reviews WHERE (username, courseid) = (?, ?)";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, review.getUsername());
+        preparedStatement.setInt(2, getCourseID(review.getCourse()));
+
+        ResultSet rs = preparedStatement.executeQuery();
+        if (rs.next()) {
+            reviewid = rs.getInt("id");
+        }
+        preparedStatement.close();
+        return reviewid;
+    }
+
+    public void deleteReviewById(int Id) throws SQLException{
         try {
             String query = String.format("DELETE FROM Reviews WHERE id = %d", Id);
             Statement statement = connection.createStatement();
@@ -139,24 +190,20 @@ public class DatabaseDriver {
         }
     }
 
-    public int getNextAvailableId() throws SQLException{
-        try {
-            String query = "SELECT id FROM Reviews ORDER BY id DESC LIMIT 1 ";
-            Statement statement = connection.createStatement();
+    public int getReviewIdByUserAndCourse(String username, Course course) throws SQLException{
+        int reviewid = -1;
+        String query = "SELECT * FROM Reviews WHERE (username, courseid) = (?, ?)";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, username);
+        preparedStatement.setInt(2, getCourseID(course));
 
-            ResultSet rs = statement.executeQuery(query);
-            statement.close();
-
-            if (rs.next()){
-                return rs.getInt("id") + 1;
-            }
-            else{
-                return 0;
-            }
-        } catch (SQLException e){
-            System.out.println("Error getting next available Review Id.");
-            throw e;
+        ResultSet rs = preparedStatement.executeQuery();
+        if (rs.next()) {
+            reviewid = rs.getInt("id");
         }
+        preparedStatement.close();
+        rs.close();
+        return reviewid;
     }
 }
 
