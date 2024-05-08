@@ -24,6 +24,10 @@ public class CourseReviewsController {
     @FXML
     private Label myReviewLabel;
     @FXML
+    private Label myReviewRating;
+    @FXML
+    private Label myReviewComment;
+    @FXML
     private TableView<Review> reviewTable;
     @FXML
     private TableColumn<Review, String> timeColumn;
@@ -38,6 +42,18 @@ public class CourseReviewsController {
 
         String courseInfo = String.format("%s %d: %s", course.getSubject(), course.getCourseNumber(), course.getTitle());
         courseLabel.setText(courseInfo);
+
+        int reviewId = -1;
+        try {
+            reviewId = databaseDriver.getReviewIdByUserAndCourse(username, course);
+            databaseDriver.commit();
+        } catch (SQLException e) {
+            myReviewLabel.setText("Error fetching reviews.");
+        }
+
+        if (reviewId != -1){
+            // TODO: Want to display review info on screen
+        }
 
         populateReviewTable();
     }
@@ -133,6 +149,15 @@ public class CourseReviewsController {
                 databaseDriver.rollback();
                 throw e;
             }
+        }
+    }
+
+    @FXML
+    public void editReview() throws SQLException{
+        int reviewId = databaseDriver.getReviewIdByUserAndCourse(username, course);
+        databaseDriver.commit();
+        if (reviewId == -1){
+            myReviewLabel.setText("You have not written a review for this course yet.");
         }
     }
 }
