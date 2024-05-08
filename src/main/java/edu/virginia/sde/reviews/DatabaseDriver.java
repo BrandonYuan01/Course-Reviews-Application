@@ -1,6 +1,7 @@
 package edu.virginia.sde.reviews;
 import java.sql.*;
 import java.util.List;
+import java.util.Optional;
 
 public class DatabaseDriver {
     private String sqliteFilename;
@@ -204,6 +205,27 @@ public class DatabaseDriver {
         preparedStatement.close();
         rs.close();
         return reviewid;
+    }
+
+    public Optional<Review> getReviewById(int Id) throws SQLException{
+        String query = "SELECT * FROM Reviews WHERE (id) = (?)";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setInt(1, Id);
+
+        ResultSet rs = preparedStatement.executeQuery();
+
+        Optional<Review> result = Optional.empty();
+        if (rs.next()){
+            int rating = rs.getInt("rating");
+            Timestamp timestamp = Timestamp.valueOf(rs.getString("times"));
+            String comment = rs.getString("comment");
+            String username = rs.getString("username");
+            Course course = rs.getInt("courseid");
+        }
+
+        preparedStatement.close();
+        rs.close();
+        return result;
     }
 }
 
