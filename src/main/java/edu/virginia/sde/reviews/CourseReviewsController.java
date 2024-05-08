@@ -105,7 +105,7 @@ public class CourseReviewsController {
             Scene scene = new Scene(fxmlLoader.load());
 
             AddReviewController addReviewController = fxmlLoader.getController();
-            addReviewController.setStage(stage, username);
+            addReviewController.setStage(stage, course, username);
             stage.setScene(scene);
         }
     }

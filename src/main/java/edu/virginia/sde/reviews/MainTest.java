@@ -39,7 +39,7 @@ public class MainTest extends Application {
 
 
         CourseReviewsController courseReviewsController = fxmlLoader.getController();
-        courseReviewsController.setStage(stage, sde, username);
+        courseReviewsController.setStage(stage, sde, "joe");
         stage.setTitle("Course Review");
         stage.setScene(scene);
         stage.show();
