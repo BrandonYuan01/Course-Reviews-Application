@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -48,6 +49,7 @@ public class SignUpController {
         }
         else if (!username.getText().equals("") && !password.getText().equals("")){
             Login.setText("Signup successful");
+            Login.setTextFill(Color.GREEN);
             databaseDriver.addUser(username.getText(), password.getText());
             databaseDriver.commit();
         }

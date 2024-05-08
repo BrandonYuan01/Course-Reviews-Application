@@ -11,18 +11,15 @@
 
 <AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.virginia.sde.reviews.CourseSearchController">
    <children>
-      <TextField fx:id="subject" layoutX="87.0" layoutY="14.0" />
-      <TextField fx:id="courseNumber" layoutX="384.0" layoutY="14.0" />
-      <Label layoutX="29.0" layoutY="18.0" text="Subject:" />
-      <Label layoutX="280.0" layoutY="18.0" text="Course Number:" />
-      <Label layoutX="578.0" layoutY="18.0" text="Title:" />
-      <TextField fx:id="title" layoutX="611.0" layoutY="14.0" />
-      <Button fx:id="search" layoutX="791.0" layoutY="14.0" mnemonicParsing="false" onMousePressed="#search" text="Search" />
-      <ScrollPane hbarPolicy="NEVER" layoutY="54.0" prefHeight="667.0" prefWidth="1280.0">
+      <TextField fx:id="subject" layoutX="14.0" layoutY="14.0" promptText="Subject" />
+      <TextField fx:id="courseNumber" layoutX="192.0" layoutY="14.0" promptText="Course Number" />
+      <TextField fx:id="title" layoutX="371.0" layoutY="14.0" promptText="Title" />
+      <Button fx:id="search" layoutX="553.0" layoutY="14.0" mnemonicParsing="false" onMousePressed="#search" text="Search" />
+      <ScrollPane hbarPolicy="NEVER" layoutY="81.0" prefHeight="640.0" prefWidth="1280.0">
         <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="666.0" prefWidth="1430.0">
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="665.0" prefWidth="1430.0">
                <children>
-                  <ListView fx:id="courseList" onMousePressed="#CourseReview" prefHeight="652.0" prefWidth="1265.0" />
+                  <ListView fx:id="courseList" layoutY="-3.0" onMousePressed="#CourseReview" prefHeight="656.0" prefWidth="1266.0" styleClass="root" stylesheets="@CoursesearchStyle.css" />
                </children></AnchorPane>
         </content>
       </ScrollPane>
@@ -32,6 +29,10 @@
           <MenuItem fx:id="logOut" mnemonicParsing="false" onAction="#logoff" text="Log Out" />
         </items>
       </MenuButton>
-      <Button layoutX="888.0" layoutY="14.0" mnemonicParsing="false" onMousePressed="#addCourse" text="Add Course" />
+      <Button layoutX="640.0" layoutY="14.0" mnemonicParsing="false" onMousePressed="#addCourse" text="Add Course" />
+      <Label layoutX="49.0" layoutY="55.0" text="Course Subject" />
+      <Label layoutX="225.0" layoutY="55.0" text="Course Number" />
+      <Label layoutX="414.0" layoutY="55.0" text="Course Title" />
+      <Label layoutX="985.0" layoutY="55.0" text="Course Rating" />
    </children>
 </AnchorPane>
