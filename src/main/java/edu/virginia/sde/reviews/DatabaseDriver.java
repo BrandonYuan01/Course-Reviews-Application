@@ -138,12 +138,24 @@ public class DatabaseDriver {
         }
     }
 
-//    public static void main(String[] args) throws SQLException {
-//        DatabaseDriver manager = new DatabaseDriver("database.sqlite");
-//        manager.connect();
-//        manager.createTables();
-//        manager.commit();
-//        manager.disconnect();
-//    }
+    public int getNextAvailableId() throws SQLException{
+        try {
+            String query = "SELECT Id FROM Reviews ORDER BY DESC LIMIT 1 ";
+            Statement statement = connection.createStatement();
+
+            ResultSet rs = statement.executeQuery(query);
+            statement.close();
+
+            if (rs.next()){
+                return rs.getInt("Id") + 1;
+            }
+            else{
+                return 0;
+            }
+        } catch (SQLException e){
+            System.out.println("Error getting next available Review Id.");
+            throw e;
+        }
+    }
 }
 

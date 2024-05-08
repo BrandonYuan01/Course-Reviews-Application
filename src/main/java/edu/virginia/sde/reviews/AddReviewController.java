@@ -61,7 +61,8 @@ public class AddReviewController {
             errorLabel.setText("Rating must be an integer from 1 to 5.");
         }
         else{
-            errorLabel.setText("Good job!");
+            String comment = commentArea.getText();
+            //Review review = new Review();
         }
     }
 }
