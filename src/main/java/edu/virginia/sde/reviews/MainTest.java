@@ -19,8 +19,7 @@ public class MainTest extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("coursereviews.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
 
-        String username = "student";
-
+        String username = "student2";
         int courseNumber = 3140;
         String subject = "CS";
         String title = "Software Development Essentials";

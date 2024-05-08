@@ -9,6 +9,8 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 
 // todo list
 // function for submit button
@@ -62,7 +64,30 @@ public class AddReviewController {
         }
         else{
             String comment = commentArea.getText();
-            //Review review = new Review();
+            int id;
+            try {
+                id = databaseDriver.getNextAvailableId();
+            } catch (SQLException e){
+                errorLabel.setText("Failed to get next available Id for the review.");
+                return;
+            }
+
+            int intRating = Integer.parseInt(rating);
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            Review review = new Review(id, intRating, timestamp, comment, username, course);
+            try {
+                databaseDriver.addReview(review);
+                databaseDriver.commit();
+            } catch (SQLException e){
+                errorLabel.setText("Failed to add review to database.");
+                return;
+            }
+
+            try {
+                back();
+            } catch (IOException e){
+                errorLabel.setText("Failed to go back to Course Review scene.");
+            }
         }
     }
 }

@@ -91,6 +91,7 @@ public class DatabaseDriver {
         preparedStatement.setInt(1, course.getCourseNumber());
         preparedStatement.setString(2, course.getSubject());
         preparedStatement.setString(3, course.getTitle());
+        preparedStatement.execute();
         preparedStatement.close();
     }
 
@@ -111,18 +112,18 @@ public class DatabaseDriver {
     }
 
     public void addReview(Review review) throws SQLException{
-        String query = "INSERT INTO Users (id, rating, times, comment, username, courseid) VALUES (?, ?, ?, ?, ?, ?)";
-        PreparedStatement preparedStatement = connection.prepareStatement(query);
-        preparedStatement.setInt(1, review.getId());
-        preparedStatement.setInt(2, review.getRating());
-        preparedStatement.setString(3, review.getTimestamp().toString());
-        preparedStatement.setString(4, review.getComment());
-        preparedStatement.setString(5, review.getUsername());
+        int id = review.getId();
+        int rating = review.getRating();
+        String timestamp = review.getTimestamp().toString();
+        String comment = review.getComment();
+        String username = review.getUsername();
+        int courseId = getCourseID(review.getCourse());
 
-        Course course = review.getCourse();
-        preparedStatement.setInt(6, getCourseID(course));
-        preparedStatement.executeUpdate();
-        preparedStatement.close();
+        String query = String.format("INSERT INTO Reviews VALUES (%d, %d, \"%s\", \"%s\", \"%s\", %d)", id, rating, timestamp, comment, username, courseId);
+        Statement statement = connection.createStatement();
+
+        statement.executeUpdate(query);
+        statement.close();
     }
 
     public void deleteReview(int Id) throws SQLException{
@@ -140,14 +141,14 @@ public class DatabaseDriver {
 
     public int getNextAvailableId() throws SQLException{
         try {
-            String query = "SELECT Id FROM Reviews ORDER BY DESC LIMIT 1 ";
+            String query = "SELECT id FROM Reviews ORDER BY id DESC LIMIT 1 ";
             Statement statement = connection.createStatement();
 
             ResultSet rs = statement.executeQuery(query);
             statement.close();
 
             if (rs.next()){
-                return rs.getInt("Id") + 1;
+                return rs.getInt("id") + 1;
             }
             else{
                 return 0;
