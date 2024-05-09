@@ -116,7 +116,7 @@ public class CourseSearchController {
 
         myReviewController myReviewController = fxmlLoader.getController();
         myReviewController.setStage(stage, username);
-        stage.setTitle("Course Review");
+        stage.setTitle("My Reviews");
         stage.setScene(scene);
     }
 
@@ -126,6 +126,7 @@ public class CourseSearchController {
         for (var course : courses) {
             course.setReviews(databaseDriver.getReviewsOfCourse(course));
         }
+        databaseDriver.commit();
         ObservableList<Course> observableList = FXCollections.observableArrayList(courses);
         courseList.getItems().setAll(observableList);
     }
