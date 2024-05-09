@@ -77,6 +77,6 @@ public class Course {
         else {
             rating = String.format("%.2f",this.getRating());
         }
-        return String.format("%-33s %-20s %-82s %-10s", subject, courseNumber, title, rating);
+        return String.format("%-33s %-20s %-93s %-5s", subject, courseNumber, title, rating);
     }
 }
