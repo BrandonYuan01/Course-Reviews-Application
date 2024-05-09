@@ -34,8 +34,9 @@ public class CourseSearchController {
     private MenuItem myReviews;
     @FXML
     private ListView courseList;
-    public void setStage(Stage stage){
+    public void setStage(Stage stage, String username){
         this.stage = stage;
+        this.username = username;
     }
     @FXML
     private void initialize() throws SQLException {
@@ -114,7 +115,7 @@ public class CourseSearchController {
         Scene scene = new Scene(fxmlLoader.load());
 
         myReviewController myReviewController = fxmlLoader.getController();
-        myReviewController.setStage(stage);
+        myReviewController.setStage(stage, username);
         stage.setTitle("Course Review");
         stage.setScene(scene);
     }
@@ -133,6 +134,7 @@ public class CourseSearchController {
     public void CourseReview() throws SQLException, IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("coursereviews.fxml"));
         Course course = (Course) courseList.getSelectionModel().getSelectedItem();
+        System.out.println(username);
         if (course != null) {
             courseList.getScene().setRoot(fxmlLoader.load());
 

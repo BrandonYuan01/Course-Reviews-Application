@@ -36,7 +36,7 @@ public class LoginController {
             Scene scene = new Scene(fxmlLoader.load());
 
             CourseSearchController courseSearchController = fxmlLoader.getController();
-            courseSearchController.setStage(stage);
+            courseSearchController.setStage(stage, username.getText());
             stage.setScene(scene);
         }
         else if (username.getText().equals("") && password.getText().equals("")) {

@@ -15,6 +15,7 @@ import java.util.function.UnaryOperator;
 
 public class AddCourseController {
     private Stage stage;
+    String username;
     private DatabaseDriver databaseDriver;
     @FXML
     private TextField subject;
@@ -98,7 +99,7 @@ public class AddCourseController {
         Scene scene = new Scene(fxmlLoader.load());
 
         CourseSearchController courseSearchController = fxmlLoader.getController();
-        courseSearchController.setStage(stage);
+        courseSearchController.setStage(stage, username);
         stage.setScene(scene);
     }
 }
