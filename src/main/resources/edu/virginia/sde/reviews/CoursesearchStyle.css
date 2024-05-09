@@ -1,5 +1,5 @@
 .root {
-    -fx-font-family: "Lucida Console";
+    -fx-font-family: "Monospaced";
 }
 .list-cell:filled:hover {
     -fx-background-color: #0093ff;
