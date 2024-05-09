@@ -24,8 +24,10 @@
          </font>
       </Label>
       <Button layoutX="10.0" layoutY="480.0" mnemonicParsing="false" onAction="#addReview" text="Add Review" />
-      <Button layoutX="103.0" layoutY="480.0" mnemonicParsing="false" text="Edit Review" />
+      <Button layoutX="103.0" layoutY="480.0" mnemonicParsing="false" onAction="#editReview" text="Edit Review" />
       <Button layoutX="195.0" layoutY="480.0" mnemonicParsing="false" onAction="#deleteReview" text="Delete Review" />
       <Label fx:id="myReviewLabel" layoutX="301.0" layoutY="487.0" textFill="RED" />
+      <Label fx:id="myReviewRating" layoutX="10.0" layoutY="520.0" />
+      <Label fx:id="myReviewComment" layoutX="10.0" layoutY="550.0" maxHeight="160.0" maxWidth="1260.0" wrapText="true" />
    </children>
 </AnchorPane>

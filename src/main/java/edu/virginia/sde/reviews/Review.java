@@ -3,24 +3,18 @@ package edu.virginia.sde.reviews;
 import java.sql.Timestamp;
 
 public class Review {
-    int Id;
     int rating;
     Timestamp timestamp;
     String comment;
     String username;
-    int courseid;
-    public Review(int Id, int rating, Timestamp timestamp, String comment, String username, int courseid){
-        this.Id = Id;
+    Course course;
+    public Review(int rating, Timestamp timestamp, String comment, String username, Course course){
         this.rating = rating;
         this.timestamp = timestamp;
         this.comment = comment;
         this.username = username;
-        this.courseid = courseid;
+        this.course = course;
     }
-
-    public int getId() { return Id; }
-
-    public void setId(int Id) { this.Id = Id; }
 
     public int getRating() {
         return rating;
@@ -54,11 +48,11 @@ public class Review {
         this.username = username;
     }
 
-    public int getCourse() {
-        return courseid;
+    public Course getCourse() {
+        return course;
     }
 
-    public void setCourse(int courseid) {
-        this.courseid = courseid;
+    public void setCourse(Course course) {
+        this.course = course;
     }
 }

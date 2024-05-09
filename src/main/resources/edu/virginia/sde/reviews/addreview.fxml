@@ -1,14 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="edu.virginia.sde.reviews.AddReviewController"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.virginia.sde.reviews.AddReviewController">
+   <children>
+      <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#back" text="Back" />
+      <Label fx:id="courseLabel" alignment="CENTER" layoutX="100.0" layoutY="10.0" prefHeight="17.0" prefWidth="1080.0" text="Label">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="10.0" layoutY="100.0" text="Write a review:">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <TextField fx:id="ratingField" layoutX="10.0" layoutY="150.0" promptText="Rating (1-5)" />
+      <TextArea fx:id="commentArea" layoutX="10.0" layoutY="200.0" prefHeight="200.0" prefWidth="1260.0" promptText="Comment (optional)" wrapText="true" />
+      <Button layoutX="10.0" layoutY="430.0" mnemonicParsing="false" onAction="#submit" prefWidth="58.0" text="Submit" />
+      <Label fx:id="errorLabel" layoutX="85.0" layoutY="436.0" textFill="RED" />
+   </children>
 </AnchorPane>

@@ -11,6 +11,7 @@ import javafx.util.Callback;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CourseReviewsController {
@@ -22,6 +23,10 @@ public class CourseReviewsController {
     private Label courseLabel;
     @FXML
     private Label myReviewLabel;
+    @FXML
+    private Label myReviewRating;
+    @FXML
+    private Label myReviewComment;
     @FXML
     private TableView<Review> reviewTable;
     @FXML
@@ -37,6 +42,26 @@ public class CourseReviewsController {
 
         String courseInfo = String.format("%s %d: %s", course.getSubject(), course.getCourseNumber(), course.getTitle());
         courseLabel.setText(courseInfo);
+
+        int reviewId = -1;
+        try {
+            reviewId = databaseDriver.getReviewIdByUserAndCourse(username, course);
+            databaseDriver.commit();
+        } catch (SQLException e) {
+            myReviewLabel.setText("Error fetching reviews.");
+        }
+
+        if (reviewId != -1){
+            // TODO: Want to display review info on screen
+            try {
+                int rating = databaseDriver.getReviewRatingByUserAndCourse(username, course);
+                String comment = databaseDriver.getReviewCommentByUserAndCourse(username, course);
+                myReviewRating.setText(String.format("Rating: %d", rating));
+                myReviewComment.setText(String.format("Comment: %s", comment));
+            } catch (SQLException e) {
+                myReviewLabel.setText("Error fetching reviews.");
+            }
+        }
 
         populateReviewTable();
     }
@@ -70,16 +95,6 @@ public class CourseReviewsController {
         reviewTable.getItems().addAll(reviews);
     }
 
-    private int getUserReviewId(){
-        List<Review> reviews = course.getReviews();
-        for (Review review : reviews){
-            if (review.getUsername().equals(username)){
-                return review.getId();
-            }
-        }
-        return -1;
-    }
-
     @FXML
     private void initialize() {
         databaseDriver = DatabaseSingleton.getInstance();
@@ -96,8 +111,10 @@ public class CourseReviewsController {
     }
 
     @FXML
-    public void addReview() throws IOException{
-        if (getUserReviewId() != -1){
+    public void addReview() throws IOException, SQLException{
+        int reviewId = databaseDriver.getReviewIdByUserAndCourse(username, course);
+        databaseDriver.commit();
+        if (reviewId != -1){
             myReviewLabel.setText("You have already written a review for this course.");
         }
         else{
@@ -105,28 +122,58 @@ public class CourseReviewsController {
             Scene scene = new Scene(fxmlLoader.load());
 
             AddReviewController addReviewController = fxmlLoader.getController();
-            addReviewController.setStage(stage, username);
+            addReviewController.setStage(stage, course, username);
             stage.setScene(scene);
         }
     }
 
     @FXML
-    public void deleteReview() throws SQLException{
-        if (getUserReviewId() == -1){
+    public void deleteReview() throws IOException, SQLException{
+        int reviewId = databaseDriver.getReviewIdByUserAndCourse(username, course);
+        databaseDriver.commit();
+        if (reviewId == -1){
             myReviewLabel.setText("You have not written a review for this course yet.");
         }
         else{
-            //TODO: Change GUI when review is deleted as well
             try {
-                int id = getUserReviewId();
-                databaseDriver.deleteReview(id);
+                databaseDriver.deleteReviewById(reviewId);
                 databaseDriver.commit();
-                myReviewLabel.setText("Review deleted successfully.");
+                ArrayList<Review> newReviews = new ArrayList<>();
+                for (Review review : course.getReviews()){
+                    if (!review.getUsername().equals(username)){
+                        newReviews.add(review);
+                    }
+                }
+                course.setReviews(newReviews);
+
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("coursereviews.fxml"));
+                Scene scene = new Scene(fxmlLoader.load());
+
+                CourseReviewsController courseReviewsController = fxmlLoader.getController();
+                courseReviewsController.setStage(stage, course, username);
+                stage.setScene(scene);
             } catch (SQLException e){
                 myReviewLabel.setText("Error occurred while trying to delete review.");
                 databaseDriver.rollback();
                 throw e;
             }
+        }
+    }
+
+    @FXML
+    public void editReview() throws SQLException, IOException{
+        int reviewId = databaseDriver.getReviewIdByUserAndCourse(username, course);
+        databaseDriver.commit();
+        if (reviewId == -1){
+            myReviewLabel.setText("You have not written a review for this course yet.");
+        }
+        else{
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("editreview.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
+            EditReviewController editReviewController = fxmlLoader.getController();
+
+            editReviewController.setStage(stage, course, username);
+            stage.setScene(scene);
         }
     }
 }
