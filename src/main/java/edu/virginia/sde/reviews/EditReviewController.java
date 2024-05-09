@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 public class EditReviewController {
     private DatabaseDriver databaseDriver;
@@ -70,7 +71,7 @@ public class EditReviewController {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         Review review = new Review(intRating, timestamp, comment, username, course);
         try {
-            databaseDriver.addReview(review);
+            databaseDriver.updateReview(reviewId, intRating, comment, timestamp);
             databaseDriver.commit();
         } catch (SQLException e){
             errorLabel.setText("Failed to edit review in database.");
@@ -80,7 +81,16 @@ public class EditReviewController {
         }
 
         try {
-            course.addReview(review);
+            ArrayList<Review> newReviews = new ArrayList<>();
+            for (Review r : course.getReviews()){
+                if (r.getUsername().equals(username)){
+                    newReviews.add(review);
+                }
+                else{
+                    newReviews.add(r);
+                }
+            }
+            course.setReviews(newReviews);
             back();
         } catch (IOException e){
             errorLabel.setText("Failed to go back to Course Review scene.");

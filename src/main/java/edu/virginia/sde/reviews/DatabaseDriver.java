@@ -422,10 +422,15 @@ public class DatabaseDriver {
         rs.close();
         return rating;
     }
-    public void updateReview(int id, int rating, String comment) throws SQLException{
-        String query = "UPDATE REVIEWS";
+    public void updateReview(int id, int rating, String comment, Timestamp timestamp) throws SQLException{
+        String query = "UPDATE REVIEWS SET (rating, times, comment) = (?, ?, ?) WHERE id = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setInt(1, rating);
+        preparedStatement.setString(2, timestamp.toString());
+        preparedStatement.setString(3, comment);
+        preparedStatement.setInt(4, id);
 
         preparedStatement.execute();
+        preparedStatement.close();
     }
 }
