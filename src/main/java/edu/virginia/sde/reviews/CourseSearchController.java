@@ -139,6 +139,7 @@ public class CourseSearchController {
 
             CourseReviewsController courseReviewsController = fxmlLoader.getController();
             courseReviewsController.setStage(stage, course, username);
+            stage.setTitle("Course Review");
         }
     }
 
