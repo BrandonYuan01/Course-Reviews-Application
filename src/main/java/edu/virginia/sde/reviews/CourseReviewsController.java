@@ -90,7 +90,14 @@ public class CourseReviewsController {
 
         });
 
-        List<Review> reviews = course.getReviews();
+        //List<Review> reviews = course.getReviews();
+
+        List<Review> reviews = null;
+        try {
+            reviews = databaseDriver.getReviewsOfCourse(course);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         reviewTable.getItems().addAll(reviews);
     }
 
@@ -98,6 +105,7 @@ public class CourseReviewsController {
     private void initialize() {
         databaseDriver = DatabaseSingleton.getInstance();
     }
+
 
     @FXML
     public void back() throws IOException {
@@ -107,6 +115,7 @@ public class CourseReviewsController {
         CourseSearchController courseSearchController = fxmlLoader.getController();
         courseSearchController.setStage(stage, username);
         stage.setScene(scene);
+        stage.setTitle("Course Search");
     }
 
     @FXML
@@ -138,7 +147,7 @@ public class CourseReviewsController {
                 databaseDriver.deleteReviewById(reviewId);
                 databaseDriver.commit();
                 ArrayList<Review> newReviews = new ArrayList<>();
-                for (Review review : course.getReviews()){
+                for (Review review : databaseDriver.getReviewsOfCourse(course)){
                     if (!review.getUsername().equals(username)){
                         newReviews.add(review);
                     }
@@ -175,4 +184,6 @@ public class CourseReviewsController {
             stage.setScene(scene);
         }
     }
+
 }
+
