@@ -23,8 +23,6 @@ public class myReviewController {
     private String username;
     private DatabaseDriver databaseDriver;
 
-    @FXML
-    private Label titleLabel;
 
     @FXML
     private TableView<Review> reviewTableView;
