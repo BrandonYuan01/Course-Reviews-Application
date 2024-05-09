@@ -52,7 +52,6 @@ public class CourseReviewsController {
         }
 
         if (reviewId != -1){
-            // TODO: Want to display review info on screen
             try {
                 int rating = databaseDriver.getReviewRatingByUserAndCourse(username, course);
                 String comment = databaseDriver.getReviewCommentByUserAndCourse(username, course);

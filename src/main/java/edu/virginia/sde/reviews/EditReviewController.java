@@ -34,6 +34,16 @@ public class EditReviewController {
 
         String courseInfo = String.format("%s %d: %s", course.getSubject(), course.getCourseNumber(), course.getTitle());
         courseLabel.setText(courseInfo);
+
+        try {
+            int rating = databaseDriver.getReviewRatingByUserAndCourse(username, course);
+            String comment = databaseDriver.getReviewCommentByUserAndCourse(username, course);
+            databaseDriver.commit();
+            ratingField.setText("" + rating);
+            commentArea.setText(comment);
+        } catch (SQLException e) {
+            errorLabel.setText("Error fetching reviews.");
+        }
     }
 
     @FXML
