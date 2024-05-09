@@ -85,7 +85,7 @@ public class DatabaseDriver {
             throw e;
         }
     }
-    
+
     public String getPassword(String username) throws SQLException {
         String userQuery = "SELECT password FROM Users WHERE username = ?";
         String password = null;
@@ -432,24 +432,6 @@ public class DatabaseDriver {
 
         preparedStatement.execute();
         preparedStatement.close();
-    }
-    public List<Review> getReviewsByUsername(String username) throws SQLException {
-        List<Review> reviews = new ArrayList<>();
-        String query = "SELECT * FROM Reviews WHERE username = ?";
-        PreparedStatement preparedStatement = connection.prepareStatement(query);
-        preparedStatement.setString(1, username);
-        ResultSet resultSet = preparedStatement.executeQuery();
-        while (resultSet.next()) {
-            int rating = resultSet.getInt("rating");
-            Timestamp timestamp = resultSet.getTimestamp("times");
-            String comment = resultSet.getString("comment");
-            Course course = getCourseById(resultSet.getInt("courseid"));
-            Review review = new Review(rating, timestamp, comment, username, course);
-            reviews.add(review);
-        }
-        preparedStatement.close();
-        resultSet.close();
-        return reviews;
     }
     public List<Review> getReviewsByUsername(String username) throws SQLException {
         List<Review> reviews = new ArrayList<>();
