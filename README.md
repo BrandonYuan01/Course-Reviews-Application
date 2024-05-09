@@ -2,43 +2,43 @@
 # Homework 6 - Course Review Application
 
 ## Authors
-1) Name, netid, [GitHub profile name]
-2) Name, netid, [GitHub profile name]
-3) Name, netid, [GitHub profile name]
-4) Name, netid, [GitHub profile name]
+1) Brandon Yuan, shw2ht, [BrandonYuan01]
+2) Christopher Goodhart, ccg9xwr, [ccg9xwr]
+3) Tiffany Cheung, vzs9mw, [TiffanyC787]
+
 
 ## To Run
 
-[Add a brief description of which .java file to run, and what vm arguments are needed]
+You can run the CourseReviewsApplication.java file which has a main function that will execute and run the application. The vm arguments that are needed are "--module-path [PATH_TO_JAVAFX_LIB_FOLDER] --add-modules javafx.controls,javafx.fxml".
 
 ## Contributions
 
 List the primary contributions of each author. It is recommended to update this with your contributions after each coding session.:
 
-### [Author 1 - replace this with their name]
+### [Brandon Yuan]
 
-* Author 1 contributions
-* as a bulleted list
-* each line starts with an asterisk and a space
+* Completed the Log-in Scene and Course Search Scene
+* Implemented Log-in Controller and login.fxml
+* Implemented SignUpController and signup.fxml
+* Implemented CourseSearchController and coursesearch.fxml
+* Implemented AddCourseController and addcourse.fxml
 
-### [Author 2 - replace this with their name]
+### [Christopher Goodhart]
 
-* Author 2 contributions
-* as a bulleted list
-* each line starts with an asterisk and a space
+* Completed the Course Review Scene
+* Implemented CourseReviewsController and coursereviews.fxml
+* Implemented AddReviewController and addreview.fxml
+* Implemented EditReviewController and editreview.fxml
+* Implemented DeleteReview method
 
-### [Author 3 - replace this with their name]
+### [Tiffany Cheung]
 
-* Author 3 contributions
-* as a bulleted list
-* each line starts with an asterisk and a space
-
-### [Author 4 - replace this with their name]
-
-* Author 4 contributions
-* as a bulleted list
-* each line starts with an asterisk and a space
+* Completed the My Reviews Scene
+* Implemented myReviewController and myreview.fxml
+* Added methods to DatabaseDriver
+* Edited CourseReviewsController class
+* Edited and improved .fxml files
 
 ## Issues
 
-List any known issues (bugs, incorrect behavior, etc.) at the time of submission.
+There are no known issues (bugs, incorrect behavior, etc.) at the time of submission.
