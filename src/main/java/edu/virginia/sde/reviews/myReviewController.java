@@ -82,7 +82,7 @@ public class myReviewController {
 
         CourseSearchController courseSearchController = fxmlLoader.getController();
         courseSearchController.setStage(stage, username);
-        stage.setTitle("Course Review");
+        stage.setTitle("Course Search");
         stage.setScene(scene);
     }
 

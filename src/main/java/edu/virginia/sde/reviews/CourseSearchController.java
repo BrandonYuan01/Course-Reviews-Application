@@ -151,7 +151,7 @@ public class CourseSearchController {
 
         AddCourseController addCourseController = fxmlLoader.getController();
         addCourseController.setStage(stage, username);
-        stage.setTitle("Course Review");
+        stage.setTitle("Add Course");
         stage.setScene(scene);
 
 //        List<Review> reviews = new ArrayList<>();

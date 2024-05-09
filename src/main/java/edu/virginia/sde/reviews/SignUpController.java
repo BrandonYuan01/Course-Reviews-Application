@@ -73,6 +73,7 @@ public class SignUpController {
 
         LoginController loginController = fxmlLoader.getController();
         loginController.setStage(stage);
+        stage.setTitle("Course Review");
         stage.setScene(scene);
     }
     @FXML
