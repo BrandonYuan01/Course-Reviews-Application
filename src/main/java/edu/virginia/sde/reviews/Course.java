@@ -51,13 +51,13 @@ public class Course {
         this.reviews.add(review);
     }
 
-    public int getRating() {
-        int total = 0;
+    public double getRating() {
+        double total = 0.00;
         int count = 0;
         List<Review> reviews = this.getReviews();
 
         for (var review : reviews) {
-            int rating  = review.getRating();
+            float rating  = review.getRating();
             total += rating;
             count += 1;
         }
@@ -77,6 +77,6 @@ public class Course {
         else {
             rating = String.format("%.2f",this.getRating());
         }
-        return String.format("%-33s %-24s %-80s %-10s", subject, courseNumber, title, rating);
+        return String.format("%-33s %-20s %-82s %-10s", subject, courseNumber, title, rating);
     }
 }

@@ -327,7 +327,6 @@ public class DatabaseDriver {
             Timestamp times = Timestamp.valueOf(resultSet.getString("times"));
             String comment = resultSet.getString("comment");
             String username = resultSet.getString("username");
-
             Review review = new Review(rating, times, comment, username, course);
             reviews.add(review);
         }

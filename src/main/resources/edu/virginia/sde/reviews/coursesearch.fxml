@@ -32,7 +32,7 @@
       <Button layoutX="640.0" layoutY="14.0" mnemonicParsing="false" onMousePressed="#addCourse" text="Add Course" />
       <Label layoutX="49.0" layoutY="55.0" text="Course Subject" />
       <Label layoutX="225.0" layoutY="55.0" text="Course Number" />
-      <Label layoutX="414.0" layoutY="55.0" text="Course Title" />
+      <Label layoutX="430.0" layoutY="55.0" text="Course Title" />
       <Label layoutX="985.0" layoutY="55.0" text="Course Rating" />
    </children>
 </AnchorPane>
