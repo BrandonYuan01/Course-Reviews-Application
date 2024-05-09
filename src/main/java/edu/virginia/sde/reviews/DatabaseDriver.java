@@ -239,5 +239,12 @@ public class DatabaseDriver {
         rs.close();
         return rating;
     }
+
+    public void updateReview(int id, int rating, String comment) throws SQLException{
+        String query = "UPDATE REVIEWS";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+
+        preparedStatement.execute();
+    }
 }
 

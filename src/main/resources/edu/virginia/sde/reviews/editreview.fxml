@@ -2,10 +2,23 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
+<?import javafx.scene.text.*?>
 
 <AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.virginia.sde.reviews.EditReviewController">
    <children>
       <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#back" text="Back" />
+      <Label fx:id="courseLabel" alignment="CENTER" layoutX="100.0" layoutY="10.0" prefHeight="17.0" prefWidth="1080.0" text="Label">
+         <font>
+            <Font size="24.0" />
+         </font></Label>
+      <Label layoutX="10.0" layoutY="100.0" text="Edit your review:">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <TextField fx:id="ratingField" layoutX="10.0" layoutY="150.0" promptText="New Rating (1-5)" />
+      <TextArea fx:id="commentArea" layoutX="10.0" layoutY="200.0" prefHeight="200.0" prefWidth="1260.0" promptText="New Comment (optional)" wrapText="true" />
+      <Button layoutX="10.0" layoutY="430.0" mnemonicParsing="false" onAction="#submit" text="Submit" />
+      <Label layoutX="85.0" layoutY="436.0" textFill="RED" />
    </children>
 </AnchorPane>
