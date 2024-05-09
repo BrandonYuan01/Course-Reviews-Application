@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 
 public class LoginController {
@@ -31,6 +32,11 @@ public class LoginController {
 
     @FXML
     public void userLogin() throws SQLException, IOException {
+        try {
+            databaseDriver.checkUser(username.getText(), password.getText());
+        } catch (SQLException e){
+            databaseDriver.createTables();
+        }
         if (databaseDriver.checkUser(username.getText(), password.getText())) {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("coursesearch.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
