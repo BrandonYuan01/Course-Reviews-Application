@@ -37,6 +37,7 @@ public class LoginController {
 
             CourseSearchController courseSearchController = fxmlLoader.getController();
             courseSearchController.setStage(stage, username.getText());
+            stage.setTitle("Course Search");
             stage.setScene(scene);
         }
         else if (username.getText().equals("") && password.getText().equals("")) {
@@ -59,6 +60,7 @@ public class LoginController {
 
         SignUpController signUpController = fxmlLoader.getController();
         signUpController.setStage(stage);
+        stage.setTitle("Sign Up");
         stage.setScene(scene);
     }
     @FXML
