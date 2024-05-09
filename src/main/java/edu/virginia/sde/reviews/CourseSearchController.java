@@ -148,7 +148,7 @@ public class CourseSearchController {
         Scene scene = new Scene(fxmlLoader.load());
 
         AddCourseController addCourseController = fxmlLoader.getController();
-        addCourseController.setStage(stage);
+        addCourseController.setStage(stage, username);
         stage.setTitle("Course Review");
         stage.setScene(scene);
 

@@ -15,7 +15,7 @@ import java.util.function.UnaryOperator;
 
 public class AddCourseController {
     private Stage stage;
-    String username;
+    private String username;
     private DatabaseDriver databaseDriver;
     @FXML
     private TextField subject;
@@ -25,7 +25,8 @@ public class AddCourseController {
     private TextField title;
     @FXML
     private Label courseAdd;
-    public void setStage(Stage stage){
+    public void setStage(Stage stage, String username){
+        this.username = username;
         this.stage = stage;
     }
     @FXML
