@@ -34,19 +34,19 @@
       <Button layoutX="640.0" layoutY="14.0" mnemonicParsing="false" onMousePressed="#addCourse" text="Add Course" />
       <Label layoutX="47.0" layoutY="55.0" text="Course Subject">
          <font>
-            <Font name="System Bold" size="12.0" />
+            <Font name="Courier New Bold" size="12.0" />
          </font></Label>
       <Label layoutX="225.0" layoutY="55.0" text="Course Number">
          <font>
-            <Font name="System Bold" size="12.0" />
+            <Font name="Courier New Bold" size="12.0" />
          </font></Label>
       <Label layoutX="592.0" layoutY="55.0" text="Course Title">
          <font>
-            <Font name="System Bold" size="12.0" />
+            <Font name="Courier New Bold" size="12.0" />
          </font></Label>
       <Label layoutX="1059.0" layoutY="56.0" text="Course Rating">
          <font>
-            <Font name="System Bold" size="12.0" />
+            <Font name="Courier New Bold" size="12.0" />
          </font></Label>
       <Separator layoutY="49.0" prefHeight="0.0" prefWidth="1282.0" />
       <Separator layoutX="173.0" layoutY="50.0" orientation="VERTICAL" prefHeight="30.0" prefWidth="12.0" />

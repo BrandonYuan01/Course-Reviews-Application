@@ -1,5 +1,5 @@
 .root {
-    -fx-font-family: "Monospaced";
+    -fx-font-family: "Courier New";
 }
 .list-cell:filled:hover {
     -fx-background-color: #0093ff;

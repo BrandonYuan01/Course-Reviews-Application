@@ -36,6 +36,9 @@
                     </cellValueFactory>
                 </TableColumn>
             </columns>
+            <style>
+                -fx-font-family: 'Courier New';
+            </style>
         </TableView>
     </children>
 </AnchorPane>
