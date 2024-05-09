@@ -32,6 +32,11 @@ public class SignUpController {
 
     @FXML
     public void signUp() throws SQLException {
+        try {
+            databaseDriver.addUser(username.getText(), password.getText());
+        } catch (SQLException e){
+            databaseDriver.createTables();
+        }
         if (username.getText().equals("") && password.getText().equals("")) {
             Login.setText("Username and password cannot be empty");
             Login.setTextFill(Color.RED);
