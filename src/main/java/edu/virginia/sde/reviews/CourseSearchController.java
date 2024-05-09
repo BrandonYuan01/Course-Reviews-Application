@@ -134,7 +134,6 @@ public class CourseSearchController {
     public void CourseReview() throws SQLException, IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("coursereviews.fxml"));
         Course course = (Course) courseList.getSelectionModel().getSelectedItem();
-        System.out.println(username);
         if (course != null) {
             courseList.getScene().setRoot(fxmlLoader.load());
 
