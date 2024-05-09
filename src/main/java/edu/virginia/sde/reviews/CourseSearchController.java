@@ -80,6 +80,10 @@ public class CourseSearchController {
         courseList.getItems().setAll(observableList);
     }
 
+//    @FXML
+//    public void hover() {
+//    }
+
 
     public TextFormatter<String> formatter (String pattern) {
         UnaryOperator<TextFormatter.Change> format = change -> {
@@ -129,10 +133,12 @@ public class CourseSearchController {
     public void CourseReview() throws SQLException, IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("coursereviews.fxml"));
         Course course = (Course) courseList.getSelectionModel().getSelectedItem();
-        courseList.getScene().setRoot(fxmlLoader.load());
+        if (course != null) {
+            courseList.getScene().setRoot(fxmlLoader.load());
 
-        CourseReviewsController courseReviewsController = fxmlLoader.getController();
-        courseReviewsController.setStage(stage, course, username);
+            CourseReviewsController courseReviewsController = fxmlLoader.getController();
+            courseReviewsController.setStage(stage, course, username);
+        }
     }
 
     @FXML

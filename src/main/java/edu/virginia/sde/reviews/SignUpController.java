@@ -57,6 +57,8 @@ public class SignUpController {
             Login.setTextFill(Color.GREEN);
             databaseDriver.addUser(username.getText(), password.getText());
             databaseDriver.commit();
+            username.clear();
+            password.clear();
         }
     }
     @FXML
