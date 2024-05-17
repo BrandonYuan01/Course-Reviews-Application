@@ -32,9 +32,7 @@ public class SignUpController {
 
     @FXML
     public void signUp() throws SQLException {
-        try {
-            databaseDriver.addUser(username.getText(), password.getText());
-        } catch (SQLException e){
+        if (databaseDriver.checkDatabase() == false) {
             databaseDriver.createTables();
         }
         if (username.getText().equals("") && password.getText().equals("")) {

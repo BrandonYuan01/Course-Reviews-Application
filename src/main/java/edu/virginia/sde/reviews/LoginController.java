@@ -32,9 +32,7 @@ public class LoginController {
 
     @FXML
     public void userLogin() throws SQLException, IOException {
-        try {
-            databaseDriver.checkUser(username.getText(), password.getText());
-        } catch (SQLException e){
+        if (databaseDriver.checkDatabase() == false) {
             databaseDriver.createTables();
         }
         if (databaseDriver.checkUser(username.getText(), password.getText())) {

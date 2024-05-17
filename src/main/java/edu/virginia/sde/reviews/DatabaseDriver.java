@@ -85,6 +85,21 @@ public class DatabaseDriver {
             throw e;
         }
     }
+    public boolean checkDatabase() throws SQLException {
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM Users");
+
+            if (!resultSet.next()) {
+                return false;
+            }
+            resultSet.close();
+            statement.close();
+            return true;
+        } catch (SQLException e) {
+            return false;
+        }
+    }
 
     public String getPassword(String username) throws SQLException {
         String userQuery = "SELECT password FROM Users WHERE username = ?";
